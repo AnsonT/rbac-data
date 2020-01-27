@@ -64,6 +64,7 @@
     "jest-watch-typeahead": "0.4.2",
     "mini-css-extract-plugin": "0.9.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
+    "pg": "^7.17.1",
     "pnp-webpack-plugin": "1.5.0",
     "postcss-flexbugs-fixes": "4.1.0",
     "postcss-loader": "3.0.0",
@@ -86,8 +87,7 @@
     "webpack": "4.41.5",
     "webpack-dev-server": "3.10.1",
     "webpack-manifest-plugin": "2.2.0",
-    "workbox-webpack-plugin": "4.3.1",
-    "pg": "^7.17.1"
+    "workbox-webpack-plugin": "4.3.1"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -156,7 +156,8 @@
     "watchPlugins": [
       "jest-watch-typeahead/filename",
       "jest-watch-typeahead/testname"
-    ]
+    ],
+    "verbose": true
   },
   "babel": {
     "presets": [
@@ -180,11 +181,15 @@
     "sqlite3": "^4.1.1"
   },
   "dependencies": {
-    "knex": "^0.20.8"
+    "email-validator": "^2.0.4",
+    "knex": "^0.20.8",
+    "lodash-uuid": "^0.0.3"
   },
   "standard": {
     "parser": "babel-eslint",
     "ignore": [],
-    "env": [ "jest" ]
+    "env": [
+      "jest"
+    ]
   }
 }
