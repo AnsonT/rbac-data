@@ -1,6 +1,12 @@
 import knex from './db'
 import { createUser } from './../users'
 
+const user1 = {
+  userName: 'user1',
+  email: 'user1@example.localhost',
+  password: 'password'
+}
+
 describe('Users Tests', () => {
   beforeAll(async () => {
     await knex.migrate.rollback()
@@ -12,9 +18,13 @@ describe('Users Tests', () => {
   })
 
   it('createUser without crashing', async (done) => {
-    const { userId, userName } = await createUser(knex, { userName: 'test', email: 'test@test.com', password: 'password' })
+    const { userId, userName } = await createUser(knex, user1)
     expect(userId).not.toBeNull()
-    expect(userName).toBe('test')
+    expect(userName).toBe(user1.userName)
+    done()
+  })
+  it('duplicate createUser to throw', async (done) => {
+    await expect(createUser(knex, user1)).rejects.toThrow()
     done()
   })
 })
