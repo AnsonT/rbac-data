@@ -8,6 +8,7 @@ services:
       - 5432:5432
     volumes:
       - ./.debug/postgresql/data:/var/lib/postgresql/data
+      - ./docker/dev/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
   mariadb:
     image: mariadb
     env_file:

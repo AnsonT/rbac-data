@@ -8,4 +8,4 @@ export async function getLastLoginAttempts () {}
 
 export async function requestPasswordReset (tx, { userName, email, requestIp }) {}
 
-export  async function resetPassword (tx, requestCode, newPassword, { clientIp }) {}
+export async function resetPassword (tx, requestCode, newPassword, { clientIp }) {}

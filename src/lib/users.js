@@ -1,4 +1,19 @@
-export async function createUser (tx, tenantId, { userName, email, password }) {}
+import uuid from 'uuid/v4'
+
+export async function createUser (tx, { tenantId, userName, email, password } = {}) {
+  console.log('createUser')
+  const userId = uuid()
+  const resp = await tx
+    .insert({
+      userId,
+      userName: userName.toLowerCase(),
+      email
+    })
+    .into('users')
+  if (resp.rowCount === 1) {
+    return { userId, userName }
+  }
+}
 
 export async function listUsers (tx, tenantId, { offset = 0, limit = 20 }) {}
 
