@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import knex from './db'
 import { createUser, getUserById, getUserByNameOrEmail, listUsers, removeUser, updateUser } from './../users'
+import { UnitTestDb } from './db'
 
 const user1 = {
   userName: 'User1',
@@ -9,13 +9,17 @@ const user1 = {
 }
 
 describe('Users Tests', () => {
-  beforeAll(async () => {
-    await knex.migrate.rollback()
-    await knex.migrate.latest()
-    await knex.seed.run({ specific: 'unittests.js' })
+  const db = new UnitTestDb()
+  let knex = null
+
+  beforeAll(async (done) => {
+    await db.initialize('users')
+    knex = db.knex
+    done()
   })
-  afterAll(async done => {
-    await knex.destroy()
+  afterAll(async (done) => {
+    await db.cleanup()
+    done()
   })
 
   it('listUsers', async (done) => {

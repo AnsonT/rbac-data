@@ -100,15 +100,6 @@ exports.up = async function (knex) {
     table.foreign('roleId').references('roleId').inTable('roles').onDelete('CASCADE')
     table.foreign('permissionId').references('permissionId').inTable('permissions').onDelete('CASCADE')
   })
-
-  await knex('tenants')
-    .insert([
-      {
-        tenantId: '00000000-0000-0000-0000-000000000000',
-        tenantName: 'root',
-        domain: process.env.ROOT_DOMAIN || 'example.localhost'
-      }
-    ])
 }
 
 exports.down = async function (knex) {

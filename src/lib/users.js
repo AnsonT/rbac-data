@@ -5,6 +5,26 @@ import emailValidator from 'email-validator'
 import { InvalidParameterError } from './errors'
 import { ROOT_TENANT } from './constants'
 
+function validateUserName (userName) {
+  if (!userName) {
+    return undefined
+  }
+  if (_.isUuid(userName)) {
+    throw new InvalidParameterError({ message: 'Invalid parameter: userName' })
+  }
+  return userName.toLowerCase()
+}
+
+function validateEmail (email) {
+  if (!email) {
+    return undefined
+  }
+  if (!emailValidator.validate(email)) {
+    throw new InvalidParameterError({ message: 'Invalid parameter: email' })
+  }
+  return email.toLowerCase()
+}
+
 /**
  * Create user
  * @param {object} tx - Knex transaction object
@@ -12,14 +32,8 @@ import { ROOT_TENANT } from './constants'
  * @param {string} values.tenantId - tenant id
  */
 export async function createUser (tx, { tenantId = ROOT_TENANT, userName, email, emailVerifiedAt, needNewPassword } = {}) {
-  if (_.isUuid(userName)) {
-    throw new InvalidParameterError({ message: 'Invalid parameter: userName' })
-  }
-  if (!emailValidator.validate(email)) {
-    throw new InvalidParameterError({ message: 'Invalid parameter: email' })
-  }
-  userName = userName.toLowerCase()
-  email = email.toLowerCase()
+  userName = validateUserName(userName)
+  email = validateEmail(email)
   const userId = uuid()
   const resp = await tx
     .insert({
@@ -32,7 +46,7 @@ export async function createUser (tx, { tenantId = ROOT_TENANT, userName, email,
     })
     .into('users')
   if (resp.rowCount === 1) {
-    return { userId, userName }
+    return { userId, tenantId, userName }
   }
 }
 
@@ -111,8 +125,8 @@ export async function removeUser (tx, userId) {
 export async function updateUser (tx, userId, { userName, email, emailVerifiedAt, needNewPassword }) {
   const modifiedAt = tx.fn.now()
   const values = {
-    userName,
-    email,
+    userName: validateUserName(userName),
+    email: validateEmail(email),
     emailVerifiedAt,
     needNewPassword,
     modifiedAt
