@@ -64,7 +64,6 @@ exports.up = async function (knex) {
     table.foreign('userId').references('userId').inTable('users').onDelete('CASCADE')
   })
 
-
   await knex.schema.createTable('roles', (table) => {
     table.uuid('roleId').primary().notNullable()
     table.uuid('tenantId').notNullable().defaultTo('00000000-0000-0000-0000-000000000000')

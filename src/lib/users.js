@@ -4,7 +4,7 @@ import emailValidator from 'email-validator'
 import { InvalidParameterError } from './errors'
 import { ROOT_TENANT } from './constants'
 
-export async function createUser (tx, { tenantId, userName, email } = {}) {
+export async function createUser (tx, { tenantId, userName, email, emailVerifiedAt, needNewPassword } = {}) {
   if (_.isUuid(userName)) {
     throw new InvalidParameterError({ message: 'Invalid parameter: userName' })
   }
@@ -18,7 +18,9 @@ export async function createUser (tx, { tenantId, userName, email } = {}) {
     .insert({
       userId,
       userName,
-      email
+      email,
+      emailVerifiedAt,
+      needNewPassword
     })
     .into('users')
   if (resp.rowCount === 1) {
@@ -66,4 +68,4 @@ export async function getUserByNameOrEmail (tx, { tenantId = ROOT_TENANT, userNa
 
 export async function removeUser (tx, userId) {}
 
-export async function updateUser (tx, userId, { userName, email }) {}
+export async function updateUser (tx, userId, { userName, email, emailVerifiedAt, needNewPassword }) {}
