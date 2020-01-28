@@ -14,7 +14,7 @@ exports.up = async function (knex) {
     table.string('userName', 64).unique().notNullable()
     table.string('email', 64)
     table.datetime('emailVerifiedAt')
-    table.boolean('needNewPassword')
+    table.boolean('needNewPassword').defaultTo(false)
     table.datetime('createdAt').defaultTo(knex.fn.now())
     table.datetime('modifiedAt').defaultTo(knex.fn.now())
     table.index('userName')

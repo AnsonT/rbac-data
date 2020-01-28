@@ -1,5 +1,6 @@
+import _ from 'lodash'
 import knex from './db'
-import { createUser, getUserById, getUserByNameOrEmail } from './../users'
+import { createUser, getUserById, getUserByNameOrEmail, listUsers, removeUser, updateUser } from './../users'
 
 const user1 = {
   userName: 'User1',
@@ -15,6 +16,21 @@ describe('Users Tests', () => {
   })
   afterAll(async done => {
     await knex.destroy()
+  })
+
+  it('listUsers', async (done) => {
+    const omitTimestamps = (users) => _.map(users, user => _.omit(user, ['createdAt', 'modifiedAt']))
+    let offset = 0
+    const limit = 3
+    while (true) {
+      const users = omitTimestamps(await listUsers(knex, { offset, limit }))
+      expect(users).toMatchSnapshot()
+      offset += limit
+      if (users.length < limit) {
+        break
+      }
+    }
+    done()
   })
 
   it('createUser without crashing', async (done) => {
@@ -52,6 +68,18 @@ describe('Users Tests', () => {
   })
   it('fails to create user invalid email', async done => {
     await expect(createUser(knex, { userName: 'test2', email: 'invalidemail' })).rejects.toThrow()
+    done()
+  })
+  it('updates user succeeds', async done => {
+    const { userId } = await getUserByNameOrEmail(knex, { userName: user1.userName })
+    const { count } = await updateUser(knex, userId, { email: 'newuser1@example.localhost' })
+    expect(count).toBe(1)
+    done()
+  })
+  it('remove user succeeds', async done => {
+    const { userId } = await getUserByNameOrEmail(knex, { userName: user1.userName })
+    const { count } = await removeUser(knex, userId)
+    expect(count).toBe(1)
     done()
   })
 })

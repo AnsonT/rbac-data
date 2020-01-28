@@ -1,10 +1,17 @@
 import uuid from 'uuid/v4'
+import 'lodash'
 import _ from 'lodash-uuid'
 import emailValidator from 'email-validator'
 import { InvalidParameterError } from './errors'
 import { ROOT_TENANT } from './constants'
 
-export async function createUser (tx, { tenantId, userName, email, emailVerifiedAt, needNewPassword } = {}) {
+/**
+ * Create user
+ * @param {object} tx - Knex transaction object
+ * @param {object} values - values of new user
+ * @param {string} values.tenantId - tenant id
+ */
+export async function createUser (tx, { tenantId = ROOT_TENANT, userName, email, emailVerifiedAt, needNewPassword } = {}) {
   if (_.isUuid(userName)) {
     throw new InvalidParameterError({ message: 'Invalid parameter: userName' })
   }
@@ -16,6 +23,7 @@ export async function createUser (tx, { tenantId, userName, email, emailVerified
   const userId = uuid()
   const resp = await tx
     .insert({
+      tenantId,
       userId,
       userName,
       email,
@@ -28,7 +36,22 @@ export async function createUser (tx, { tenantId, userName, email, emailVerified
   }
 }
 
-export async function listUsers (tx, { tenantId = ROOT_TENANT, offset = 0, limit = 20 }) {}
+/**
+ * Returns a list of users
+ * @param {object} tx - Knex transaction object
+ * @param {object} where - the query parameters for the list
+ * @param {string} where.tenantId - tenant id
+ * @param {number} where.offset - offset of the list
+ * @param {number} where.limit - limit # items returned
+ */
+export async function listUsers (tx, { tenantId = ROOT_TENANT, offset = 0, limit = 20 }) {
+  return tx
+    .select()
+    .from('users')
+    .where({ tenantId })
+    .offset(offset)
+    .limit(limit)
+}
 
 /**
  * Return a user by userId
@@ -66,6 +89,37 @@ export async function getUserByNameOrEmail (tx, { tenantId = ROOT_TENANT, userNa
   return tx.first()
 }
 
-export async function removeUser (tx, userId) {}
+/**
+ * Deletes a user by Id
+ * @param {object} tx - Knex transaction object
+ * @param {*} userId - id of user to delete
+ */
+export async function removeUser (tx, userId) {
+  const count = await tx
+    .from('users')
+    .where({ userId })
+    .del()
+  return { userId, count }
+}
 
-export async function updateUser (tx, userId, { userName, email, emailVerifiedAt, needNewPassword }) {}
+/**
+ * Update user
+ * @param {object} tx - Knex transaction object
+ * @param {string} userId - id of user to update
+ * @param {object} values - new values
+ */
+export async function updateUser (tx, userId, { userName, email, emailVerifiedAt, needNewPassword }) {
+  const modifiedAt = tx.fn.now()
+  const values = {
+    userName,
+    email,
+    emailVerifiedAt,
+    needNewPassword,
+    modifiedAt
+  }
+  const count = await tx
+    .where({ userId })
+    .update(values)
+    .into('users')
+  return { count }
+}
