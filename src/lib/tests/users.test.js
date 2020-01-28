@@ -11,7 +11,7 @@ describe('Users Tests', () => {
   beforeAll(async () => {
     await knex.migrate.rollback()
     await knex.migrate.latest()
-    // await knex.seed.run()
+    await knex.seed.run({ specific: 'unittests.js' })
   })
   afterAll(async done => {
     await knex.destroy()
