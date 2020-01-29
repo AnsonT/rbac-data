@@ -21,13 +21,17 @@ export class UnitTestDb {
 
     this.dbManager = require('knex-db-manager')
       .databaseManagerFactory(this.dbConfig)
+
     await this.dbManager.createDb()
     await this.dbManager.close()
     await this.dbManager.closeKnex()
     this.knex = require('knex')(this.dbConfig.knex)
-    await this.knex.migrate.rollback()
     await this.knex.migrate.latest()
-    await this.knex.seed.run({ specific: 'unittests.js' })
+    try {
+      await this.knex.seed.run({ specific: 'unittests.js' })
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   async cleanup () {

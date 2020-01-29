@@ -13,8 +13,12 @@ describe('Users Tests', () => {
   let knex = null
 
   beforeAll(async (done) => {
-    await db.initialize('users')
-    knex = db.knex
+    try {
+      await db.initialize('users')
+      knex = db.knex
+    } catch (e) {
+      console.error(e)
+    }
     done()
   })
   afterAll(async (done) => {
