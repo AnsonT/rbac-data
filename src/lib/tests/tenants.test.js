@@ -27,7 +27,7 @@ describe('Users Tests', () => {
   })
   it('listTenants succeed', async (done) => {
     const tenants = await listTenants(knex)
-    expect(tenants.length).toBe(2)
+    expect(tenants.length).toBe(4)
     done()
   })
   it('getTenantById succeed', async (done) => {

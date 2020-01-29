@@ -1,21 +1,20 @@
 const faker = require('faker')
-const ROOT_TENANT = '00000000-0000-0000-0000-000000000000'
+const { seed: baseSeed } = require('./000base')
+const { ROOT_TENANT } = require('../src/lib/constants')
 
 faker.seed(1337)
 
 exports.seed = async (knex) => {
-  await knex('tenants').del()
-
+  await baseSeed(knex)
   await knex('tenants')
     .insert([
       {
-        tenantId: ROOT_TENANT,
-        tenantName: 'root',
-        domain: process.env.ROOT_DOMAIN || 'example.localhost'
+        tenantId: '19443f78-47f2-4ed7-89eb-5707105ee51e',
+        tenantName: 'acme',
+        domain: 'acme.com'
       }
     ])
 
-  await knex('users').del()
   await knex('users').insert(
     Array.from({ length: 20 }, (x, i) => {
       return ({

@@ -86,10 +86,12 @@ exports.up = async function (knex) {
 
   await knex.schema.createTable('permissions', (table) => {
     table.uuid('permissionId').primary().notNullable()
-    table.uuid('tenantId').notNullable().defaultTo('00000000-0000-0000-0000-000000000000')
+    table.uuid('tenantId').defaultTo('00000000-0000-0000-0000-000000000000')
     table.string('permission', 64).notNullable()
     table.string('description', 256)
+    table.boolean('global').defaultTo(false)
     table.datetime('createdAt').defaultTo(knex.fn.now())
+    table.unique(['tenantId', 'permission'])
     table.foreign('tenantId').references('tenantId').inTable('tenants').onDelete('CASCADE')
   })
 
