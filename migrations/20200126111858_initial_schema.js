@@ -91,6 +91,7 @@ exports.up = async function (knex) {
     table.string('description', 256)
     table.boolean('global').defaultTo(false)
     table.datetime('createdAt').defaultTo(knex.fn.now())
+    table.datetime('modifiedAt').defaultTo(knex.fn.now())
     table.unique(['tenantId', 'permission'])
     table.foreign('tenantId').references('tenantId').inTable('tenants').onDelete('CASCADE')
   })

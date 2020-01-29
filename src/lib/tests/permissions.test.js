@@ -1,6 +1,7 @@
+import _ from 'lodash'
 import { UnitTestDb } from './db'
-import { createPermissions, getPermissionById, getPermissionByName } from '../permissions'
-import { ROOT_TENANT } from '../constants'
+import { createPermissions, getPermissionById, getPermissionByName, listPermissions, removePermission, updatePermission } from '../permissions'
+import { ROOT_TENANT, GLOBAL_TENANT } from '../constants'
 
 const ACME_TENANT = '19443f78-47f2-4ed7-89eb-5707105ee51e'
 
@@ -16,22 +17,16 @@ const acmePerm1 = {
   tenantId: ACME_TENANT
 }
 
+const acme_Perm1 = { // eslint-disable-line camelcase
+  permission: '_perm1',
+  description: 'acme permission 1',
+  tenantId: ACME_TENANT
+}
+
 const globalPerm2 = {
-  permission: 'perm2',
+  permission: '_perm2',
   description: 'global permission 2',
   global: true
-}
-
-const globalPerm3 = {
-  permission: 'perm3',
-  description: 'global permission 3',
-  global: true
-}
-
-const acmePerm3 = {
-  permission: 'perm3',
-  description: 'acme permission 3',
-  tenantId: ACME_TENANT
 }
 
 describe('Permissions Tests', () => {
@@ -54,6 +49,16 @@ describe('Permissions Tests', () => {
     expect(permission).toBe(rootPerm1.permission)
     done()
   })
+  it('createPermissions _ local permission fails', async (done) => {
+    await expect(createPermissions(knex, acme_Perm1)).rejects.toThrow()
+    done()
+  })
+
+  it('createPermissions duplicate fails', async (done) => {
+    await expect(createPermissions(knex, rootPerm1)).rejects.toThrow()
+    done()
+  })
+
   it('createPermissions global succeeds', async (done) => {
     const { permissionId } = await createPermissions(knex, globalPerm2)
     expect(permissionId).not.toBeNull()
@@ -103,13 +108,32 @@ describe('Permissions Tests', () => {
     expect(description).toBe(acmePerm1.description)
     done()
   })
-  it('getPermissionByName local permissions override global with tenantId succeeds', async (done) => {
-    await createPermissions(knex, globalPerm3)
-    await createPermissions(knex, acmePerm3)
-    const rootPermission = await getPermissionByName(knex, { tenantId: ROOT_TENANT, permission: globalPerm3.permission })
-    expect(rootPermission.description).toBe(globalPerm3.description)
-    const acmePermission = await getPermissionByName(knex, { tenantId: ACME_TENANT, permission: globalPerm3.permission })
-    expect(acmePermission.description).toBe(acmePerm3.description)
+  it('listPermissions succeeds', async (done) => {
+    const omitMutableFields = (users) => _.map(users, user => _.omit(user, ['permissionId', 'createdAt', 'modifiedAt']))
+
+    const rootPermissions = await listPermissions(knex)
+    expect(omitMutableFields(rootPermissions)).toMatchSnapshot()
+    const acmePermissions = await listPermissions(knex, { tenantId: ACME_TENANT })
+    expect(omitMutableFields(acmePermissions)).toMatchSnapshot()
+    const globalPermissions = await listPermissions(knex, { tenantId: GLOBAL_TENANT })
+    expect(omitMutableFields(globalPermissions)).toMatchSnapshot()
+    done()
+  })
+  it('updatePermissions succeeds', async (done) => {
+    const { permissionId } = await getPermissionByName(knex, rootPerm1)
+    const { count } = await updatePermission(knex, permissionId, { permission: 'newPerm1' })
+    expect(count).toBe(1)
+    const permission = await getPermissionById(knex, permissionId)
+    expect(permission.permission).toBe('newPerm1')
+    done()
+  })
+
+  it('removePermission succeeds', async (done) => {
+    const { permissionId } = await getPermissionByName(knex, acmePerm1)
+    const { count } = await removePermission(knex, permissionId)
+    expect(count).toBe(1)
+    const acmePermissions = await listPermissions(knex, { tenantId: ACME_TENANT })
+    expect(acmePermissions.length).toMatchSnapshot()
     done()
   })
 })
