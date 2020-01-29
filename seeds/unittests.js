@@ -22,6 +22,6 @@ exports.seed = async (knex) => {
       userId: faker.random.uuid(),
       userName: faker.internet.userName().toLowerCase(),
       email: faker.internet.email().toLowerCase(),
-      emailVerifiedAt: knex.fn.now()
+      emailVerifiedAt: faker.date.past()
     })))
 }
