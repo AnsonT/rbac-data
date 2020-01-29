@@ -85,24 +85,11 @@ export async function updateRole (tx, roleId, { roleName, description }) {
   return { count }
 }
 
-export async function assignUserRole (tx, userIdOrName, roleIdOrName, { tenantId } = {}) {
-  if (!_.isUuid(userIdOrName) || !_.isUuid(roleIdOrName)) {
-    throw new InvalidParameterError({ message: 'tenantId required to use user or role name' })
-  }
-  const { userId, tenantId: userTenantId } = _.isUuid(userIdOrName)
-    ? await getUserById(tx, userIdOrName)
-    : await getUserByName(tx, { tenantId, userName: userIdOrName })
-  const { roleId, tenantId: roleTenantId } = _.isUuid(roleIdOrName)
-    ? await getRoleById(tx, roleIdOrName)
-    : await getRoleByName(tx, { tenantId, roleName: roleIdOrName })
-  if (tenantId !== roleTenantId || tenantId !== userTenantId) {
+export async function assignUserRoleById (tx, { userId, roleId }) {
+  const { tenantId: userTenantId } = await getUserById(tx, userId)
+  const { tenantId: roleTenantId } = await getRoleById(tx, roleId)
+  if (userTenantId !== roleTenantId) {
     throw new InvalidParameterError({ message: 'Role and User from different tenants' })
-  }
-  if (!userId) {
-    throw new InvalidParameterError({ message: `InvalidParameter userNameOrId: '${userIdOrName}'` })
-  }
-  if (!roleId) {
-    throw new InvalidParameterError({ message: `InvalidParameter roleNameOrId: '${roleIdOrName}'` })
   }
   await tx
     .insert({ userId, roleId })
@@ -110,7 +97,22 @@ export async function assignUserRole (tx, userIdOrName, roleIdOrName, { tenantId
   return { userId, roleId }
 }
 
-export async function removeUserRole (tx, userId, roleId) {}
+export async function assignUserRoleByName (tx, { tenantId = ROOT_TENANT, userName, roleName } = {}) {
+  const { userId } = getUserByName(tx, { tenantId, userName })
+  const { roleId } = getRoleByName(tx, { tenantId, roleName })
+  await tx
+    .insert({ userId, roleId })
+    .into('usersRoles')
+  return { userId, roleId }
+}
+
+export async function removeUserRole (tx, userId, roleId) {
+  const count = await tx
+    .from('usersRoles')
+    .del()
+    .where({ userId, roleId })
+  return { userId, roleId, count }
+}
 
 export async function listUserRoles (tx, userId) {}
 
