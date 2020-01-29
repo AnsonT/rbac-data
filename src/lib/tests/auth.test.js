@@ -51,7 +51,7 @@ describe('Aunt Tests', () => {
     done()
   })
   it('requestPasswordReset by userName succeeds', async (done) => {
-    const success = await requestPasswordReset(knex, { userName: 'testAuth' })
+    const { success } = await requestPasswordReset(knex, { userName: 'testAuth' })
     expect(success).toBe(true)
     done()
   })
@@ -66,7 +66,7 @@ describe('Aunt Tests', () => {
   it('getPasswordResetRequests journal succeeds', async (done) => {
     const users = await listUsers(knex, { limit: 10 })
     for (let i = 0; i < users.length; i++) {
-      const success = await requestPasswordReset(knex, { userName: users[i].userName })
+      const { success } = await requestPasswordReset(knex, { userName: users[i].userName })
       expect(success).toBe(true)
     }
 

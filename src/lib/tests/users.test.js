@@ -27,7 +27,7 @@ describe('Users Tests', () => {
   })
 
   it('listUsers', async (done) => {
-    const omitTimestamps = (users) => _.map(users, user => _.omit(user, ['createdAt', 'modifiedAt']))
+    const omitTimestamps = (users) => _.map(users, user => _.omit(user, ['createdAt', 'modifiedAt', 'emailVerifiedAt']))
     let offset = 0
     const limit = 3
     while (true) {

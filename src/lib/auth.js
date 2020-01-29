@@ -75,7 +75,7 @@ export async function requestPasswordReset (tx, { tenantId = ROOT_TENANT, userNa
   users = _.castArray(users)
   users = _.compact(users)
   if (!users.length) {
-    return false
+    return { success: false, error: 'user not found' }
   }
   for (const user of users) {
     const requestId = uuid()
@@ -85,7 +85,7 @@ export async function requestPasswordReset (tx, { tenantId = ROOT_TENANT, userNa
     const { userId, emailVerifiedAt } = user
 
     if (!emailVerifiedAt) {
-      return false
+      return { success: false, error: 'email not verified' }
     }
     await tx
       .update({ expireAt: new Date() })
@@ -95,7 +95,7 @@ export async function requestPasswordReset (tx, { tenantId = ROOT_TENANT, userNa
       .insert({ requestId, userId, requestCode, requestAt, expireAt, requestIp })
       .into('passwordResetRequests')
   }
-  return true
+  return { success: true }
 }
 
 export async function getPasswordResetRequests (tx, { since = 0, limit = 20, offset = 0 } = {}) {

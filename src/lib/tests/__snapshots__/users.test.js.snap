@@ -4,7 +4,6 @@ exports[`Users Tests listUsers 1`] = `
 Array [
   Object {
     "email": "hattie_hoeger@yahoo.com",
-    "emailVerifiedAt": 2019-04-26T21:42:32.069Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "48234870-5389-445f-8b41-c61a52bf27dc",
@@ -12,7 +11,6 @@ Array [
   },
   Object {
     "email": "brandon_johns@yahoo.com",
-    "emailVerifiedAt": 2019-05-21T08:12:40.625Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "5374da67-7226-4d3e-8ed9-2ffe6d8b8b0d",
@@ -20,7 +18,6 @@ Array [
   },
   Object {
     "email": "evan.lang1@gmail.com",
-    "emailVerifiedAt": 2019-05-23T07:00:29.593Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "c0a5d0cc-f50b-487a-bbd8-949dfb4d0419",
@@ -33,7 +30,6 @@ exports[`Users Tests listUsers 2`] = `
 Array [
   Object {
     "email": "pearlie.pollich@gmail.com",
-    "emailVerifiedAt": 2019-03-03T08:14:55.579Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "cea83ca7-ea28-4ec5-9bd4-48f2b777a6ec",
@@ -41,7 +37,6 @@ Array [
   },
   Object {
     "email": "darren_quitzon93@yahoo.com",
-    "emailVerifiedAt": 2019-09-30T22:12:05.100Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "5b9e7637-aefa-4780-b4f8-82c834666f8c",
@@ -49,7 +44,6 @@ Array [
   },
   Object {
     "email": "abdiel_feil@gmail.com",
-    "emailVerifiedAt": 2019-03-26T11:58:55.396Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "9165d0fa-4b6c-4b35-b065-77305edb7c21",
@@ -62,7 +56,6 @@ exports[`Users Tests listUsers 3`] = `
 Array [
   Object {
     "email": "fidel.stamm60@gmail.com",
-    "emailVerifiedAt": 2019-05-02T13:46:26.549Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "75e7932d-2f50-4631-8a10-7b5a50ccd5bc",
@@ -70,7 +63,6 @@ Array [
   },
   Object {
     "email": "hermina_dubuque@gmail.com",
-    "emailVerifiedAt": 2020-01-14T03:42:34.234Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "c99ee830-d19f-497d-a1ab-968eeaeb40bc",
@@ -78,7 +70,6 @@ Array [
   },
   Object {
     "email": "alvis.wehner@yahoo.com",
-    "emailVerifiedAt": 2019-04-18T13:21:31.635Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "4e7f547f-a7f2-4088-ba52-4be69879bd7b",
@@ -91,7 +82,6 @@ exports[`Users Tests listUsers 4`] = `
 Array [
   Object {
     "email": "miller.prohaska93@gmail.com",
-    "emailVerifiedAt": 2020-01-11T14:59:41.208Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "6bb3e443-a60a-494b-8fc2-da89bd6dd9dd",
@@ -99,7 +89,6 @@ Array [
   },
   Object {
     "email": "alicia7@gmail.com",
-    "emailVerifiedAt": 2019-12-19T14:25:38.933Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "a42bbbf9-e1d0-40b0-9bcb-eb0231d2ed66",
@@ -107,7 +96,6 @@ Array [
   },
   Object {
     "email": "saul.wyman@hotmail.com",
-    "emailVerifiedAt": 2019-09-01T15:40:39.309Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "9b4959cd-6b03-4a14-8556-4584b0ea7988",
@@ -120,7 +108,6 @@ exports[`Users Tests listUsers 5`] = `
 Array [
   Object {
     "email": "delmer_aufderhar@gmail.com",
-    "emailVerifiedAt": 2019-06-27T11:27:06.653Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "9bb72ed1-b7ba-4dab-9baa-ca0d3db3ca82",
@@ -128,7 +115,6 @@ Array [
   },
   Object {
     "email": "judah18@gmail.com",
-    "emailVerifiedAt": 2019-10-29T05:23:47.714Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "830806ba-ba34-4c0d-9d58-3bbc7ba6ea8b",
@@ -136,7 +122,6 @@ Array [
   },
   Object {
     "email": "marcelo18@gmail.com",
-    "emailVerifiedAt": 2019-08-11T19:45:44.046Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "88548a60-b10c-4570-ba1b-5de3daf23554",
@@ -149,7 +134,6 @@ exports[`Users Tests listUsers 6`] = `
 Array [
   Object {
     "email": "kelli.lang@gmail.com",
-    "emailVerifiedAt": 2019-03-30T06:33:40.565Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "c66054ad-9a4a-4b36-bc10-4eea57400349",
@@ -157,7 +141,6 @@ Array [
   },
   Object {
     "email": "alfonso.mertz@gmail.com",
-    "emailVerifiedAt": 2019-03-11T05:10:17.700Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "d92b3381-5f80-4034-a239-40829d9cc337",
@@ -165,7 +148,6 @@ Array [
   },
   Object {
     "email": "leonel.hodkiewicz98@gmail.com",
-    "emailVerifiedAt": 2019-12-18T06:11:08.450Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "5b38b8f4-4ea8-46b6-b1a4-8d31e52b86e4",
@@ -178,7 +160,6 @@ exports[`Users Tests listUsers 7`] = `
 Array [
   Object {
     "email": "derick_waters@hotmail.com",
-    "emailVerifiedAt": 2019-03-27T00:11:01.391Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "e08dc8c5-2990-4163-82d4-173458bd53c0",
@@ -186,7 +167,6 @@ Array [
   },
   Object {
     "email": "thad_reichert25@gmail.com",
-    "emailVerifiedAt": 2019-12-06T06:58:23.259Z,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "1b6843ae-97ee-469d-aae5-644bd98fb343",

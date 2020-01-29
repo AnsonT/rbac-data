@@ -17,11 +17,13 @@ exports.seed = async (knex) => {
 
   await knex('users').del()
   await knex('users').insert(
-    Array.from({ length: 20 }, (x, i) => ({
-      tenantId: ROOT_TENANT,
-      userId: faker.random.uuid(),
-      userName: faker.internet.userName().toLowerCase(),
-      email: faker.internet.email().toLowerCase(),
-      emailVerifiedAt: faker.date.past()
-    })))
+    Array.from({ length: 20 }, (x, i) => {
+      return ({
+        tenantId: ROOT_TENANT,
+        userId: faker.random.uuid(),
+        userName: faker.internet.userName().toLowerCase(),
+        email: faker.internet.email().toLowerCase(),
+        emailVerifiedAt: faker.date.past()
+      })
+    }))
 }
