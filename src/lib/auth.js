@@ -63,7 +63,7 @@ export async function getLastLoginAttempts (tx, userId) {
   }
 }
 
-export async function requestPasswordReset (tx, { tenantId = ROOT_TENANT, userName, email, requestIp } = {}) {
+export async function requestPasswordReset (tx, { tenantId = ROOT_TENANT, userName, email, requestIp, requireVerifiedEmail } = {}) {
   if (userName && email) {
     throw new InvalidParameterError({ message: 'Cannot specify both userName and email' })
   }
@@ -87,6 +87,10 @@ export async function requestPasswordReset (tx, { tenantId = ROOT_TENANT, userNa
     if (!emailVerifiedAt) {
       return false
     }
+    await tx
+      .update({ expireAt: new Date() })
+      .where({ userId })
+      .into('passwordResetRequests')
     await tx
       .insert({ requestId, userId, requestCode, requestAt, expireAt, requestIp })
       .into('passwordResetRequests')

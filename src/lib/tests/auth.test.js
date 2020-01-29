@@ -1,6 +1,6 @@
 import { UnitTestDb } from './db'
 import { createLogin, verifyLogin, loginAttempt, getLastLoginAttempts, requestPasswordReset, getPasswordResetRequests, resetPassword } from '../auth'
-import { createUser, getUserByName } from '../users'
+import { createUser, getUserByName, listUsers } from '../users'
 
 describe('Aunt Tests', () => {
   const db = new UnitTestDb()
@@ -51,13 +51,25 @@ describe('Aunt Tests', () => {
     done()
   })
   it('requestPasswordReset by userName succeeds', async (done) => {
-    for (let i = 0; i < 10; i++) {
-      const success = await requestPasswordReset(knex, { userName: 'testAuth' })
-      expect(success).toBe(true)
-    }
+    const success = await requestPasswordReset(knex, { userName: 'testAuth' })
+    expect(success).toBe(true)
     done()
   })
-  it('getPasswordResetRequests succeeds', async (done) => {
+  it('requestPasswordReset by userName expires old', async (done) => {
+    await requestPasswordReset(knex, { userName: 'testAuth' })
+    await requestPasswordReset(knex, { userName: 'testAuth' })
+    const requests = await getPasswordResetRequests(knex)
+    expect(requests.length).toBe(1)
+    done()
+  })
+
+  it('getPasswordResetRequests journal succeeds', async (done) => {
+    const users = await listUsers(knex, { limit: 10 })
+    for (let i = 0; i < users.length; i++) {
+      const success = await requestPasswordReset(knex, { userName: users[i].userName })
+      expect(success).toBe(true)
+    }
+
     const requests = await getPasswordResetRequests(knex)
     const limit = 3
     const r = []
@@ -76,7 +88,7 @@ describe('Aunt Tests', () => {
       last = requests[limit - 1]
       since = last.requestAt
     }
-    expect(r.length).toBe(10)
+    expect(r.length).toBe(11)
     expect(r).toStrictEqual(requests)
     console.log(r[0])
     done()

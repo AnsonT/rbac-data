@@ -20,7 +20,8 @@ exports.seed = async (knex) => {
     Array.from({ length: 20 }, (x, i) => ({
       tenantId: ROOT_TENANT,
       userId: faker.random.uuid(),
-      userName: faker.internet.userName(),
-      email: faker.internet.email()
+      userName: faker.internet.userName().toLowerCase(),
+      email: faker.internet.email().toLowerCase(),
+      emailVerifiedAt: knex.fn.now()
     })))
 }
