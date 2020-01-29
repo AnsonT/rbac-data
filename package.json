@@ -185,6 +185,7 @@
     "sqlite3": "^4.1.1"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "email-validator": "^2.0.4",
     "knex": "^0.20.8",
     "lodash-uuid": "^0.0.3"
