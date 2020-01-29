@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Permissions Tests listRoles succeeds 1`] = `
+Array [
+  Object {
+    "canBeDeleted": false,
+    "description": "root superuser",
+    "roleName": "superuser",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+  },
+  Object {
+    "canBeDeleted": true,
+    "description": "role 1",
+    "roleName": "role1",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+  },
+  Object {
+    "canBeDeleted": true,
+    "description": "role 2",
+    "roleName": "role2",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+  },
+]
+`;
+
+exports[`Permissions Tests removeRole succeeds 1`] = `2`;

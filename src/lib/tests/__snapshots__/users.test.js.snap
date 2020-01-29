@@ -3,6 +3,7 @@
 exports[`Users Tests listUsers 1`] = `
 Array [
   Object {
+    "canBeDeleted": true,
     "email": "hattie_hoeger@yahoo.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -10,6 +11,7 @@ Array [
     "userName": "patrick36",
   },
   Object {
+    "canBeDeleted": true,
     "email": "brandon_johns@yahoo.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -17,6 +19,7 @@ Array [
     "userName": "mose_morissette16",
   },
   Object {
+    "canBeDeleted": true,
     "email": "evan.lang1@gmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -29,6 +32,7 @@ Array [
 exports[`Users Tests listUsers 2`] = `
 Array [
   Object {
+    "canBeDeleted": true,
     "email": "pearlie.pollich@gmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -36,6 +40,7 @@ Array [
     "userName": "jaylon_kulas",
   },
   Object {
+    "canBeDeleted": true,
     "email": "darren_quitzon93@yahoo.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -43,6 +48,7 @@ Array [
     "userName": "brain_emmerich2",
   },
   Object {
+    "canBeDeleted": true,
     "email": "abdiel_feil@gmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -55,6 +61,7 @@ Array [
 exports[`Users Tests listUsers 3`] = `
 Array [
   Object {
+    "canBeDeleted": true,
     "email": "fidel.stamm60@gmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -62,6 +69,7 @@ Array [
     "userName": "kennedi_harvey16",
   },
   Object {
+    "canBeDeleted": true,
     "email": "hermina_dubuque@gmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -69,6 +77,7 @@ Array [
     "userName": "jazmyn67",
   },
   Object {
+    "canBeDeleted": true,
     "email": "alvis.wehner@yahoo.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -81,6 +90,7 @@ Array [
 exports[`Users Tests listUsers 4`] = `
 Array [
   Object {
+    "canBeDeleted": true,
     "email": "miller.prohaska93@gmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -88,6 +98,7 @@ Array [
     "userName": "agnes.leffler71",
   },
   Object {
+    "canBeDeleted": true,
     "email": "alicia7@gmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -95,6 +106,7 @@ Array [
     "userName": "newton63",
   },
   Object {
+    "canBeDeleted": true,
     "email": "saul.wyman@hotmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -107,6 +119,7 @@ Array [
 exports[`Users Tests listUsers 5`] = `
 Array [
   Object {
+    "canBeDeleted": true,
     "email": "delmer_aufderhar@gmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -114,6 +127,7 @@ Array [
     "userName": "madeline.schuster45",
   },
   Object {
+    "canBeDeleted": true,
     "email": "judah18@gmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -121,6 +135,7 @@ Array [
     "userName": "kyle34",
   },
   Object {
+    "canBeDeleted": true,
     "email": "marcelo18@gmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -133,6 +148,7 @@ Array [
 exports[`Users Tests listUsers 6`] = `
 Array [
   Object {
+    "canBeDeleted": true,
     "email": "kelli.lang@gmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -140,6 +156,7 @@ Array [
     "userName": "sigrid_walter",
   },
   Object {
+    "canBeDeleted": true,
     "email": "alfonso.mertz@gmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -147,6 +164,7 @@ Array [
     "userName": "skye_altenwerth",
   },
   Object {
+    "canBeDeleted": true,
     "email": "leonel.hodkiewicz98@gmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -159,6 +177,7 @@ Array [
 exports[`Users Tests listUsers 7`] = `
 Array [
   Object {
+    "canBeDeleted": true,
     "email": "derick_waters@hotmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -166,6 +185,7 @@ Array [
     "userName": "chasity.upton50",
   },
   Object {
+    "canBeDeleted": true,
     "email": "thad_reichert25@gmail.com",
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",

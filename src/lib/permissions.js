@@ -79,6 +79,7 @@ export async function removePermission (tx, permissionId) {
   const count = await tx
     .from('permissions')
     .where({ permissionId })
+    .whereNot({ canBeDeleted: false })
     .del()
   return { permissionId, count }
 }

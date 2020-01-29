@@ -3,12 +3,14 @@
 exports[`Permissions Tests listPermissions succeeds 1`] = `
 Array [
   Object {
+    "canBeDeleted": true,
     "description": "root permission 1",
     "global": false,
     "permission": "perm1",
     "tenantId": "00000000-0000-0000-0000-000000000000",
   },
   Object {
+    "canBeDeleted": true,
     "description": "global permission 2",
     "global": true,
     "permission": "_perm2",
@@ -20,12 +22,14 @@ Array [
 exports[`Permissions Tests listPermissions succeeds 2`] = `
 Array [
   Object {
+    "canBeDeleted": true,
     "description": "acme permission 1",
     "global": false,
     "permission": "perm1",
     "tenantId": "19443f78-47f2-4ed7-89eb-5707105ee51e",
   },
   Object {
+    "canBeDeleted": true,
     "description": "global permission 2",
     "global": true,
     "permission": "_perm2",
@@ -37,6 +41,7 @@ Array [
 exports[`Permissions Tests listPermissions succeeds 3`] = `
 Array [
   Object {
+    "canBeDeleted": true,
     "description": "global permission 2",
     "global": true,
     "permission": "_perm2",

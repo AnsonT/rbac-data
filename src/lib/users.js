@@ -106,6 +106,7 @@ export async function removeUser (tx, userId) {
   const count = await tx
     .from('users')
     .where({ userId })
+    .whereNot({ canBeDeleted: false })
     .del()
   return { userId, count }
 }
