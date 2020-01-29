@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { createUser, getUserById, getUserByNameOrEmail, listUsers, removeUser, updateUser } from './../users'
+import { createUser, getUserById, listUsers, removeUser, updateUser, getUsersByEmail, getUserByName } from './../users'
 import { UnitTestDb } from './db'
 
 const user1 = {
@@ -48,19 +48,21 @@ describe('Users Tests', () => {
     done()
   })
   it('getUser by name successful', async (done) => {
-    const { userName, email } = await getUserByNameOrEmail(knex, { userName: user1.userName })
+    const { userName, email } = await getUserByName(knex, { userName: user1.userName })
     expect(userName).toBe(user1.userName.toLowerCase())
     expect(email).toBe(user1.email.toLowerCase())
     done()
   })
   it('getUser by email successful', async (done) => {
-    const { userName, email } = await getUserByNameOrEmail(knex, { email: user1.email })
+    const users = await getUsersByEmail(knex, { email: user1.email })
+    expect(users.length).toBe(1)
+    const { email, userName } = users[0]
     expect(userName).toBe(user1.userName.toLowerCase())
     expect(email).toBe(user1.email.toLowerCase())
     done()
   })
   it('getUser by id successful', async (done) => {
-    const { userId } = await getUserByNameOrEmail(knex, { userName: user1.userName })
+    const { userId } = await getUserByName(knex, { userName: user1.userName })
     const user = await getUserById(knex, userId)
     expect(user.userName).toBe(user1.userName.toLowerCase())
     expect(user.email).toBe(user1.email.toLowerCase())
@@ -79,13 +81,13 @@ describe('Users Tests', () => {
     done()
   })
   it('updates user succeeds', async done => {
-    const { userId } = await getUserByNameOrEmail(knex, { userName: user1.userName })
+    const { userId } = await getUserByName(knex, { userName: user1.userName })
     const { count } = await updateUser(knex, userId, { email: 'newuser1@example.localhost' })
     expect(count).toBe(1)
     done()
   })
   it('remove user succeeds', async done => {
-    const { userId } = await getUserByNameOrEmail(knex, { userName: user1.userName })
+    const { userId } = await getUserByName(knex, { userName: user1.userName })
     const { count } = await removeUser(knex, userId)
     expect(count).toBe(1)
     done()

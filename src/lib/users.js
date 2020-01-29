@@ -80,27 +80,21 @@ export async function getUserById (tx, userId) {
     .first()
 }
 
-/**
- * Return a user based on userName or email (userName or email must be specified)
- * @param {object} tx - Knex transaction object
- * @param {object} where - the query parameters for the user
- * @param {string} where.tenantId - tenant realm of user, defaults to ROOT_TENANT
- * @param {string} where.userName - user name
- * @param {string} where.email - email
- */
-export async function getUserByNameOrEmail (tx, { tenantId = ROOT_TENANT, userName, email }) {
-  if (!userName && !email) {
-    throw new InvalidParameterError({ message: 'userName or email must be specified' })
-  }
+export async function getUserByName (tx, { tenantId = ROOT_TENANT, userName }) {
   userName = userName && userName.toLowerCase()
-  email = email && email.toLowerCase()
-  tx = tx
+  return tx
     .select()
     .from('users')
-    .where({ tenantId })
-  if (userName) { tx = tx.where({ userName }) }
-  if (email) { tx = tx.where({ email }) }
-  return tx.first()
+    .where({ tenantId, userName })
+    .first()
+}
+
+export async function getUsersByEmail (tx, { tenantId = ROOT_TENANT, email }) {
+  email = email && email.toLowerCase()
+  return tx
+    .select()
+    .from('users')
+    .where({ tenantId, email })
 }
 
 /**

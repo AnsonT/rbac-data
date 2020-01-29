@@ -188,7 +188,9 @@
     "bcryptjs": "^2.4.3",
     "email-validator": "^2.0.4",
     "knex": "^0.20.8",
-    "lodash-uuid": "^0.0.3"
+    "lodash-uuid": "^0.0.3",
+    "moment": "^2.24.0",
+    "short-uuid": "^3.1.1"
   },
   "standard": {
     "parser": "babel-eslint",
