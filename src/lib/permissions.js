@@ -118,26 +118,18 @@ export async function listUserPermissions (tx, userId) {
   }
 }
 
-export function checkPermissions (requiredPermissions, { grants, any = false }) {
+export function checkPermissions (requiredPermissions, grants, { any = false } = {}) {
+  if (!grants || !_.isArray(grants)) {
+    throw new InvalidParameterError({ message: 'grants must be an array' })
+  }
   if (_.isString(requiredPermissions)) {
     return _.includes(grants, requiredPermissions)
   }
   if (_.isArray(requiredPermissions)) {
-    if (any) {
-      for (const p of requiredPermissions) {
-        if (checkPermissions(p, { grants })) {
-          return true
-        }
-      }
-      return false
-    } else {
-      for (const p of requiredPermissions) {
-        if (!checkPermissions(p, { grants })) {
-          return false
-        }
-      }
-      return true
-    }
+    const check = _.curry(checkPermissions)(_, grants)
+    return any
+      ? _.some(requiredPermissions, check)
+      : _.every(requiredPermissions, check)
   }
   const allRequired = _.get(requiredPermissions, 'all')
   const anyRequired = _.get(requiredPermissions, 'any')
@@ -145,10 +137,10 @@ export function checkPermissions (requiredPermissions, { grants, any = false }) 
     throw new InvalidParameterError({ message: 'requirePermissions cannot have all and any in the same condition' })
   }
   if (allRequired) {
-    return checkPermissions(allRequired, { grants })
+    return checkPermissions(allRequired, grants)
   }
   if (anyRequired) {
-    return checkPermissions(anyRequired, { grants, any: true })
+    return checkPermissions(anyRequired, grants, { any: true })
   }
   return false
 }

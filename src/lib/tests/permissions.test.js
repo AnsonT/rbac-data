@@ -137,37 +137,25 @@ describe('Permissions Tests', () => {
     done()
   })
   it('checkPermissions succeeds', async (done) => {
-    expect(checkPermissions('a', { grants: ['a', 'b'] })).toBe(true)
-    expect(checkPermissions(['a'], { grants: ['a', 'b'] })).toBe(true)
-    expect(checkPermissions(['a'], { grants: [] })).toBe(false)
-    expect(checkPermissions(['a', 'b'], { grants: ['a', 'b'] })).toBe(true)
-    expect(checkPermissions(['a', 'b', 'c'], { grants: ['a', 'b'] })).toBe(false)
+    expect(checkPermissions('a', ['a', 'b'])).toBe(true)
+    expect(checkPermissions(['a'], ['a', 'b'])).toBe(true)
+    expect(checkPermissions(['a'], [])).toBe(false)
+    expect(checkPermissions(['a', 'b'], ['a', 'b'])).toBe(true)
+    expect(checkPermissions(['a', 'b', 'c'], ['a', 'b'])).toBe(false)
 
-    expect(checkPermissions({ all: ['a'] }, { grants: ['a', 'b'] })).toBe(true)
-    expect(checkPermissions({ all: ['a', 'b'] }, { grants: ['a', 'b'] })).toBe(true)
-    expect(checkPermissions({ all: ['a', 'b', 'c'] }, { grants: ['a', 'b'] })).toBe(false)
+    expect(checkPermissions({ all: ['a'] }, ['a', 'b'])).toBe(true)
+    expect(checkPermissions({ all: ['a', 'b'] }, ['a', 'b'])).toBe(true)
+    expect(checkPermissions({ all: ['a', 'b', 'c'] }, ['a', 'b'])).toBe(false)
 
-    expect(checkPermissions({ any: ['a', 'b'] }, { grants: ['a'] })).toBe(true)
-    expect(checkPermissions({ any: ['a', 'b'] }, { grants: ['a', 'b'] })).toBe(true)
-    expect(checkPermissions({ any: ['a', 'b'] }, { grants: ['c'] })).toBe(false)
+    expect(checkPermissions({ any: ['a', 'b'] }, ['a'])).toBe(true)
+    expect(checkPermissions({ any: ['a', 'b'] }, ['a', 'b'])).toBe(true)
+    expect(checkPermissions({ any: ['a', 'b'] }, ['c'])).toBe(false)
 
-    expect(checkPermissions([
-      { all: ['a', 'b'] },
-      { any: ['c', 'd'] }
-    ], { grants: ['a', 'b', 'c'] })).toBe(true)
+    expect(checkPermissions([{ all: ['a', 'b'] }, { any: ['c', 'd'] }], ['a', 'b', 'c'])).toBe(true)
+    expect(checkPermissions([{ all: ['a', 'b'] }, { any: ['c', 'd'] }], ['a', 'b'])).toBe(false)
 
-    expect(checkPermissions([
-      { all: ['a', 'b'] },
-      { any: ['c', 'd'] }
-    ], { grants: ['a', 'b'] })).toBe(false)
-
-    expect(checkPermissions({
-      any: [{ all: ['a', 'b'] }, { any: ['c', 'd'] }]
-    }, { grants: ['a', 'b'] })).toBe(true)
-
-    expect(checkPermissions({
-      any: [{ all: ['a', 'b'] }, { any: ['c', 'd'] }]
-    }, { grants: ['c'] })).toBe(true)
+    expect(checkPermissions({ any: [{ all: ['a', 'b'] }, { any: ['c', 'd'] }] }, ['a', 'b'])).toBe(true)
+    expect(checkPermissions({ any: [{ all: ['a', 'b'] }, { any: ['c', 'd'] }] }, ['c'])).toBe(true)
 
     done()
   })

@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { UnitTestDb } from './db'
-import { createRole, getRoleById, getRoleByName, listRoles, removeRole, updateRole, assignUserRoleById, listUserRoles, allowPermissionInRoleById, denyPermissionInRoleById } from '../roles'
+import { createRole, getRoleById, getRoleByName, listRoles, removeRole, updateRole, assignUserRoleById, listUserRoles, grantRolePermissionById, denyRolePermissionById } from '../roles'
 import { SUPERUSER_ROLE, ROOT_TENANT } from '../constants'
 import uuid from 'uuid/v4'
 import { createUser, getUserByName } from '../users'
@@ -128,9 +128,9 @@ describe('Roles Tests', () => {
     const { permissionId: permission2Id } = await createPermission(knex, permission2)
     const { permissionId: permission3Id } = await createPermission(knex, permission3)
 
-    await allowPermissionInRoleById(knex, roleId, permission1Id)
-    await allowPermissionInRoleById(knex, roleId, permission2Id)
-    await denyPermissionInRoleById(knex, roleId, permission3Id)
+    await grantRolePermissionById(knex, roleId, permission1Id)
+    await grantRolePermissionById(knex, roleId, permission2Id)
+    await denyRolePermissionById(knex, roleId, permission3Id)
     done()
   })
   it('listUserPermissions succeeds', async (done) => {

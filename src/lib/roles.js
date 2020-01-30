@@ -114,14 +114,14 @@ export async function removeUserRole (tx, userId, roleId) {
   return { userId, roleId, count }
 }
 
-export async function allowPermissionInRoleById (tx, roleId, permissionId) {
+export async function grantRolePermissionById (tx, roleId, permissionId) {
   await tx
     .insert({ roleId, permissionId, denied: false })
     .into('rolesPermissions')
   return { roleId, permissionId }
 }
 
-export async function denyPermissionInRoleById (tx, roleId, permissionId) {
+export async function denyRolePermissionById (tx, roleId, permissionId) {
   await tx
     .insert({ roleId, permissionId, denied: true })
     .into('rolesPermissions')
