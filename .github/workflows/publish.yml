@@ -47,9 +47,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           
-      - name: yarn publish
+      - name: npm publish
         run: |
-          yarn config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
-          yarn run trypublish
+          npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+          npm run trypublish
         env:
             NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
