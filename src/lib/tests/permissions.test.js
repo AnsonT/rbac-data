@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { UnitTestDb } from './db'
-import { createPermission, getPermissionById, getPermissionByName, listPermissions, removePermission, updatePermission } from '../permissions'
+import { createPermission, getPermissionById, getPermissionByName, listPermissions, removePermission, updatePermission, checkPermissions } from '../permissions'
 import { ROOT_TENANT, GLOBAL_TENANT } from '../constants'
 
 const ACME_TENANT = '19443f78-47f2-4ed7-89eb-5707105ee51e'
@@ -134,6 +134,13 @@ describe('Permissions Tests', () => {
     expect(count).toBe(1)
     const acmePermissions = await listPermissions(knex, { tenantId: ACME_TENANT })
     expect(acmePermissions.length).toMatchSnapshot()
+    done()
+  })
+  it('checkPermissions succeeds', async (done) => {
+    expect(checkPermissions(['a'], { allowed: ['a', 'b'] })).toBe(true)
+    expect(checkPermissions(['a', 'b', 'c'], { allowed: ['a', 'b'] })).toBe(false)
+    expect(checkPermissions(['a', 'b'], { allowed: ['a', 'b'], denied: ['b'] })).toBe(false)
+
     done()
   })
 })

@@ -46,32 +46,8 @@ Array [
 ]
 `;
 
-exports[`Roles Tests listUserPermissions succeeds 1`] = `
-Array [
-  Object {
-    "denied": false,
-    "description": "root permission 1",
-    "global": false,
-    "permission": "perm1",
-  },
-  Object {
-    "denied": false,
-    "description": "root permission 2",
-    "global": false,
-    "permission": "perm2",
-  },
-]
-`;
+exports[`Roles Tests listUserPermissions succeeds 1`] = `Array []`;
 
-exports[`Roles Tests listUserPermissions succeeds 2`] = `
-Array [
-  Object {
-    "denied": true,
-    "description": "root permission 3",
-    "global": true,
-    "permission": "_perm3",
-  },
-]
-`;
+exports[`Roles Tests listUserPermissions succeeds 2`] = `Array []`;
 
 exports[`Roles Tests removeRole succeeds 1`] = `3`;

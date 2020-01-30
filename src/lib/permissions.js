@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import uuid from 'uuid/v4'
 import { InvalidParameterError } from './errors'
 import { GLOBAL_TENANT, ROOT_TENANT } from './constants'
@@ -98,4 +99,26 @@ export async function updatePermission (tx, permissionId, { permission, descript
     .update(values)
     .into('permissions')
   return { count }
+}
+
+export async function listUserPermissions (tx, userId) {
+  const permissions = await tx
+    .select(['p.permissionId', 'p.permission', 'p.description', 'p.global', 'rp.denied'])
+    .from('permissions as p')
+    .join('rolesPermissions as rp', 'rp.permissionId', 'p.permissionId')
+    .join('roles as r', 'r.roleId', 'rp.roleId')
+
+  const allow = _.map(_.filter(permissions, { denied: false }), p => p.permission)
+  const deny = _.map(_.filter(permissions, { denied: true }), p => p.permission)
+  return {
+    allow,
+    deny,
+    permissions
+  }
+}
+
+export function checkPermissions (requiredPermissions, { allowed, denied }) {
+  const mustHave = _.intersection(requiredPermissions, allowed)
+  const mustNotHave = _.intersection(requiredPermissions, denied)
+  return mustHave.length === requiredPermissions.length && mustNotHave.length === 0
 }

@@ -1,10 +1,10 @@
 import _ from 'lodash'
 import { UnitTestDb } from './db'
-import { createRole, getRoleById, getRoleByName, listRoles, removeRole, updateRole, assignUserRoleById, listUserRoles, listUserPermissions, allowPermissionInRoleById, denyPermissionInRoleById } from '../roles'
+import { createRole, getRoleById, getRoleByName, listRoles, removeRole, updateRole, assignUserRoleById, listUserRoles, allowPermissionInRoleById, denyPermissionInRoleById } from '../roles'
 import { SUPERUSER_ROLE, ROOT_TENANT } from '../constants'
 import uuid from 'uuid/v4'
 import { createUser, getUserByName } from '../users'
-import { createPermission } from '../permissions'
+import { createPermission, listUserPermissions } from '../permissions'
 
 const user1 = {
   userName: 'User1',

@@ -136,15 +136,3 @@ export async function listUserRoles (tx, userId) {
     .where({ userId })
   return roles
 }
-
-export async function listUserPermissions (tx, userId) {
-  const permissions = await tx
-    .select(['p.permissionId', 'p.permission', 'p.description', 'p.global', 'rp.denied'])
-    .from('permissions as p')
-    .join('rolesPermissions as rp', 'rp.permissionId', 'p.permissionId')
-    .join('roles as r', 'r.roleId', 'rp.roleId')
-  return {
-    allowed: _.filter(permissions, { denied: false }),
-    denied: _.filter(permissions, { denied: true })
-  }
-}
