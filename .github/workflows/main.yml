@@ -14,11 +14,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node_version }}
+    - name: Build the stack
+        run: docker-compose -f docker-compose.dev.yml up -d
     - name: npm install, build, and test
       run: |
         npm install
-        npm run start -- --testMode
-        npm run demo
-        npm run coverage
+        # npm run start -- --testMode
+        # npm run demo
+        npm run coverage --runInBand
       env:
         CI: true
