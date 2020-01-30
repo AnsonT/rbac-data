@@ -15,7 +15,7 @@ jobs:
       with:
         node-version: ${{ matrix.node_version }}
     - name: Build the stack
-        run: docker-compose -f docker-compose.dev.yml up -d
+      run: docker-compose -f docker-compose.dev.yml up -d
     - name: npm install, build, and test
       run: |
         npm install
