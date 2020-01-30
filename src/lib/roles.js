@@ -114,6 +114,37 @@ export async function removeUserRole (tx, userId, roleId) {
   return { userId, roleId, count }
 }
 
-export async function listUserRoles (tx, userId) {}
+export async function allowPermissionInRoleById (tx, roleId, permissionId) {
+  await tx
+    .insert({ roleId, permissionId, denied: false })
+    .into('rolesPermissions')
+  return { roleId, permissionId }
+}
 
-export async function listUserPermissions (tx, userId) {}
+export async function denyPermissionInRoleById (tx, roleId, permissionId) {
+  await tx
+    .insert({ roleId, permissionId, denied: true })
+    .into('rolesPermissions')
+  return { roleId, permissionId }
+}
+
+export async function listUserRoles (tx, userId) {
+  const roles = await tx
+    .select()
+    .from('usersRoles')
+    .join('roles', 'usersRoles.roleId', 'roles.roleId')
+    .where({ userId })
+  return roles
+}
+
+export async function listUserPermissions (tx, userId) {
+  const permissions = await tx
+    .select(['p.permissionId', 'p.permission', 'p.description', 'p.global', 'rp.denied'])
+    .from('permissions as p')
+    .join('rolesPermissions as rp', 'rp.permissionId', 'p.permissionId')
+    .join('roles as r', 'r.roleId', 'rp.roleId')
+  return {
+    allowed: _.filter(permissions, { denied: false }),
+    denied: _.filter(permissions, { denied: true })
+  }
+}

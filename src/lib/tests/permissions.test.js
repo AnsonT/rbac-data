@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { UnitTestDb } from './db'
-import { createPermissions, getPermissionById, getPermissionByName, listPermissions, removePermission, updatePermission } from '../permissions'
+import { createPermission, getPermissionById, getPermissionByName, listPermissions, removePermission, updatePermission } from '../permissions'
 import { ROOT_TENANT, GLOBAL_TENANT } from '../constants'
 
 const ACME_TENANT = '19443f78-47f2-4ed7-89eb-5707105ee51e'
@@ -42,25 +42,25 @@ describe('Permissions Tests', () => {
     await db.cleanup()
     done()
   })
-  it('createPermissions local succeeds', async (done) => {
-    const { permissionId } = await createPermissions(knex, rootPerm1)
+  it('createPermission local succeeds', async (done) => {
+    const { permissionId } = await createPermission(knex, rootPerm1)
     expect(permissionId).not.toBeNull()
     const { permission } = await getPermissionById(knex, permissionId)
     expect(permission).toBe(rootPerm1.permission)
     done()
   })
-  it('createPermissions _ local permission fails', async (done) => {
-    await expect(createPermissions(knex, acme_Perm1)).rejects.toThrow()
+  it('createPermission _ local permission fails', async (done) => {
+    await expect(createPermission(knex, acme_Perm1)).rejects.toThrow()
     done()
   })
 
-  it('createPermissions duplicate fails', async (done) => {
-    await expect(createPermissions(knex, rootPerm1)).rejects.toThrow()
+  it('createPermission duplicate fails', async (done) => {
+    await expect(createPermission(knex, rootPerm1)).rejects.toThrow()
     done()
   })
 
-  it('createPermissions global succeeds', async (done) => {
-    const { permissionId } = await createPermissions(knex, globalPerm2)
+  it('createPermission global succeeds', async (done) => {
+    const { permissionId } = await createPermission(knex, globalPerm2)
     expect(permissionId).not.toBeNull()
     const { permission } = await getPermissionById(knex, permissionId)
     expect(permission).toBe(globalPerm2.permission)
@@ -100,8 +100,8 @@ describe('Permissions Tests', () => {
     expect(permission.global).toBe(true)
     done()
   })
-  it('createPermissions conflicted name in second tenant succeeds', async (done) => {
-    const { permissionId } = await createPermissions(knex, acmePerm1)
+  it('createPermission conflicted name in second tenant succeeds', async (done) => {
+    const { permissionId } = await createPermission(knex, acmePerm1)
     expect(permissionId).not.toBeNull()
 
     const { description } = await getPermissionById(knex, permissionId)

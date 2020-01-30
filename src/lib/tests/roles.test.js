@@ -1,9 +1,16 @@
 import _ from 'lodash'
 import { UnitTestDb } from './db'
-import { createRole, getRoleById, getRoleByName, listRoles, removeRole, updateRole } from '../roles'
-import { SUPERUSER_ROLE } from '../constants'
+import { createRole, getRoleById, getRoleByName, listRoles, removeRole, updateRole, assignUserRoleById, listUserRoles, listUserPermissions, allowPermissionInRoleById, denyPermissionInRoleById } from '../roles'
+import { SUPERUSER_ROLE, ROOT_TENANT } from '../constants'
 import uuid from 'uuid/v4'
+import { createUser, getUserByName } from '../users'
+import { createPermission } from '../permissions'
 
+const user1 = {
+  userName: 'User1',
+  email: 'user1@example.localhost',
+  password: 'password'
+}
 const role1 = {
   roleName: 'role1',
   description: 'role 1'
@@ -14,7 +21,30 @@ const role2 = {
   description: 'role 2'
 }
 
-describe('Permissions Tests', () => {
+const role3 = {
+  roleName: 'role3',
+  description: 'role 3'
+}
+
+const permission1 = {
+  permission: 'perm1',
+  description: 'root permission 1',
+  tenantId: ROOT_TENANT
+}
+
+const permission2 = {
+  permission: 'perm2',
+  description: 'root permission 2',
+  tenantId: ROOT_TENANT
+}
+
+const permission3 = {
+  permission: '_perm3',
+  description: 'root permission 3',
+  global: true
+}
+
+describe('Roles Tests', () => {
   const db = new UnitTestDb()
   let knex = null
 
@@ -33,6 +63,7 @@ describe('Permissions Tests', () => {
     const { roleName } = await getRoleById(knex, roleId)
     expect(roleName).toBe(role1.roleName)
     await createRole(knex, role2)
+    await createRole(knex, role3)
     done()
   })
   it('getRoleByName succeeds', async (done) => {
@@ -70,6 +101,47 @@ describe('Permissions Tests', () => {
   it('updateRole invalid roleName fails', async (done) => {
     const { roleId } = await getRoleByName(knex, { roleName: role1.roleName })
     await expect(updateRole(knex, roleId, { roleName: uuid() })).rejects.toThrow()
+    done()
+  })
+  it('addUserRole by Id succeeds', async (done) => {
+    const { userId } = await createUser(knex, user1)
+    const { roleId: role1Id } = await getRoleByName(knex, { roleName: role1.roleName })
+    const { roleId: role3Id } = await getRoleByName(knex, { roleName: role3.roleName })
+    await assignUserRoleById(knex, {
+      userId,
+      roleId: role1Id
+    })
+    await assignUserRoleById(knex, {
+      userId,
+      roleId: role3Id
+    })
+    const omitMutableFields = (users) =>
+      _.map(users, user => _.omit(user,
+        ['roleId', 'userId', 'createdAt', 'modifiedAt']))
+    const roles = await listUserRoles(knex, userId)
+    expect(omitMutableFields(roles)).toMatchSnapshot()
+    done()
+  })
+  it('addRolePermissions succeeds', async (done) => {
+    const { roleId } = await getRoleByName(knex, { roleName: role1.roleName })
+    const { permissionId: permission1Id } = await createPermission(knex, permission1)
+    const { permissionId: permission2Id } = await createPermission(knex, permission2)
+    const { permissionId: permission3Id } = await createPermission(knex, permission3)
+
+    await allowPermissionInRoleById(knex, roleId, permission1Id)
+    await allowPermissionInRoleById(knex, roleId, permission2Id)
+    await denyPermissionInRoleById(knex, roleId, permission3Id)
+    done()
+  })
+  it('listUserPermissions succeeds', async (done) => {
+    const omitMutableFields = (users) =>
+      _.map(users, user => _.omit(user,
+        ['permissionId']))
+
+    const { userId } = await getUserByName(knex, user1)
+    const { allowed, denied } = await listUserPermissions(knex, userId)
+    expect(omitMutableFields(allowed)).toMatchSnapshot()
+    expect(omitMutableFields(denied)).toMatchSnapshot()
     done()
   })
 })

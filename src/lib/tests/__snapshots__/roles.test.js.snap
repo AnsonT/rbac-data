@@ -1,6 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Permissions Tests listRoles succeeds 1`] = `
+exports[`Roles Tests addUserRole by Id succeeds 1`] = `
+Array [
+  Object {
+    "canBeDeleted": true,
+    "description": "role 3",
+    "roleName": "role3",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+  },
+  Object {
+    "canBeDeleted": true,
+    "description": "changed description",
+    "roleName": "role1",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+  },
+]
+`;
+
+exports[`Roles Tests listRoles succeeds 1`] = `
 Array [
   Object {
     "canBeDeleted": false,
@@ -20,7 +37,41 @@ Array [
     "roleName": "role2",
     "tenantId": "00000000-0000-0000-0000-000000000000",
   },
+  Object {
+    "canBeDeleted": true,
+    "description": "role 3",
+    "roleName": "role3",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+  },
 ]
 `;
 
-exports[`Permissions Tests removeRole succeeds 1`] = `2`;
+exports[`Roles Tests listUserPermissions succeeds 1`] = `
+Array [
+  Object {
+    "denied": false,
+    "description": "root permission 1",
+    "global": false,
+    "permission": "perm1",
+  },
+  Object {
+    "denied": false,
+    "description": "root permission 2",
+    "global": false,
+    "permission": "perm2",
+  },
+]
+`;
+
+exports[`Roles Tests listUserPermissions succeeds 2`] = `
+Array [
+  Object {
+    "denied": true,
+    "description": "root permission 3",
+    "global": true,
+    "permission": "_perm3",
+  },
+]
+`;
+
+exports[`Roles Tests removeRole succeeds 1`] = `3`;

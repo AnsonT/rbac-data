@@ -104,6 +104,7 @@ exports.up = async function (knex) {
     table.uuid('roleId').notNullable()
     table.uuid('permissionId').notNullable()
     table.datetime('createdAt').defaultTo(knex.fn.now())
+    table.boolean('denied').notNullable().defaultTo(false)
     table.foreign('roleId').references('roleId').inTable('roles').onDelete('CASCADE')
     table.foreign('permissionId').references('permissionId').inTable('permissions').onDelete('CASCADE')
   })

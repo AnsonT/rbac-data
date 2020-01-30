@@ -97,7 +97,6 @@ describe('Auth Tests', () => {
     }
     expect(r.length).toBe(11)
     expect(r).toStrictEqual(requests)
-    console.log(r[0])
     done()
   })
   it('resetPassword succeeds', async (done) => {

@@ -15,7 +15,7 @@ function validatePermission (permission, global) {
   return permission
 }
 
-export async function createPermissions (tx, { tenantId, permission, description, global }) {
+export async function createPermission (tx, { tenantId, permission, description, global }) {
   const permissionId = uuid()
   if (tenantId && global) {
     throw new InvalidParameterError({ message: 'Cannot specify both tenantId and global: true' })
