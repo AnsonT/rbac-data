@@ -2,6 +2,7 @@ import _ from 'lodash'
 import uuid from 'uuid/v4'
 import { InvalidParameterError } from './errors'
 import { GLOBAL_TENANT, ROOT_TENANT } from './constants'
+import { getUserByName } from './users'
 
 function validatePermission (permission, global) {
   if (!permission) {
@@ -143,4 +144,10 @@ export function checkPermissions (requiredPermissions, grants, { any = false } =
     return checkPermissions(anyRequired, grants, { any: true })
   }
   return false
+}
+
+export async function checkUserPermissionsByName (tx, requiredPermissions, { tenantId = ROOT_TENANT, userName }) {
+  const { userId } = await getUserByName(tx, { tenantId, userName })
+  const { grants } = await listUserPermissions(tx, userId)
+  return checkPermissions(requiredPermissions, grants)
 }

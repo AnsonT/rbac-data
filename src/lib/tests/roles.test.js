@@ -4,7 +4,7 @@ import { createRole, getRoleById, getRoleByName, listRoles, removeRole, updateRo
 import { SUPERUSER_ROLE, ROOT_TENANT } from '../constants'
 import uuid from 'uuid/v4'
 import { createUser, getUserByName } from '../users'
-import { createPermission, listUserPermissions } from '../permissions'
+import { createPermission, listUserPermissions, checkUserPermissionsByName } from '../permissions'
 
 const user1 = {
   userName: 'User1',
@@ -142,6 +142,12 @@ describe('Roles Tests', () => {
     const { allowed, denied } = await listUserPermissions(knex, userId)
     expect(omitMutableFields(allowed)).toMatchSnapshot()
     expect(omitMutableFields(denied)).toMatchSnapshot()
+    done()
+  })
+  it('checkUserPermissionsByName succeeds', async (done) => {
+    expect(await checkUserPermissionsByName(knex, [permission1.permission], { userName: user1.userName })).toBe(true)
+    expect(await checkUserPermissionsByName(knex, [permission1.permission, permission2.permission], { userName: user1.userName })).toBe(true)
+    expect(await checkUserPermissionsByName(knex, permission3.permission, { userName: user1.userName })).toBe(false)
     done()
   })
 })
