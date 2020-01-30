@@ -39,7 +39,7 @@ jobs:
       - name: Bump version
         run: |
           git reset --hard
-          yarn version patch
+          yarn version --prepatch --preid alpha
           yarn build
           git add . || true
           git commit -m "Build update" || true
