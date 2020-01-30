@@ -113,12 +113,42 @@ export async function listUserPermissions (tx, userId) {
   return {
     allow,
     deny,
+    grants: _.filter(allow, a => !_.includes(deny, a)),
     permissions
   }
 }
 
-export function checkPermissions (requiredPermissions, { allowed, denied }) {
-  const mustHave = _.intersection(requiredPermissions, allowed)
-  const mustNotHave = _.intersection(requiredPermissions, denied)
-  return mustHave.length === requiredPermissions.length && mustNotHave.length === 0
+export function checkPermissions (requiredPermissions, { grants, any = false }) {
+  if (_.isString(requiredPermissions)) {
+    return _.includes(grants, requiredPermissions)
+  }
+  if (_.isArray(requiredPermissions)) {
+    if (any) {
+      for (const p of requiredPermissions) {
+        if (checkPermissions(p, { grants })) {
+          return true
+        }
+      }
+      return false
+    } else {
+      for (const p of requiredPermissions) {
+        if (!checkPermissions(p, { grants })) {
+          return false
+        }
+      }
+      return true
+    }
+  }
+  const allRequired = _.get(requiredPermissions, 'all')
+  const anyRequired = _.get(requiredPermissions, 'any')
+  if (allRequired && anyRequired) {
+    throw new InvalidParameterError({ message: 'requirePermissions cannot have all and any in the same condition' })
+  }
+  if (allRequired) {
+    return checkPermissions(allRequired, { grants })
+  }
+  if (anyRequired) {
+    return checkPermissions(anyRequired, { grants, any: true })
+  }
+  return false
 }
