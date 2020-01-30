@@ -10,11 +10,11 @@ jobs:
         os: [ubuntu-latest]
     services:
       postgres:
-        image: postgres:10.8
+        image: postgres:11-alpine
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
+          POSTGRES_DB: starter_dev
         ports:
         - 5432:5432
         # needed because the postgres container does not provide a healthcheck
@@ -26,11 +26,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node_version }}
-    - name: npm install, build, and test
+    - name: yarn install, build, and test
       run: |
-        npm install
-        # npm run start -- --testMode
-        # npm run demo
-        npm run coverage --runInBand
+        yarn install
+        yarn coverage --runInBand
       env:
         CI: true
