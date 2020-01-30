@@ -17,7 +17,16 @@ export async function createLogin (tx, userId, password) {
   return { loginId, userId }
 }
 
-export async function verifyLogin (tx, userName, password, { tenantId = ROOT_TENANT, loginIp } = {}) {
+export async function isKnownLogin (tx, userId, { loginIp = '', cookies }) {
+  const { count } = await tx
+    .count()
+    .where({ userId, success: true, loginIp })
+    .from('loginAttempts')
+    .first()
+  return count > 0
+}
+
+export async function verifyLogin (tx, userName, password, { tenantId = ROOT_TENANT, loginIp, cookies } = {}) {
   const user = await getUserByName(tx, { tenantId, userName })
   if (user) {
     const { userId } = user
@@ -29,12 +38,14 @@ export async function verifyLogin (tx, userName, password, { tenantId = ROOT_TEN
       .first()
     const { passwordHash } = login
     const success = bcrypt.compareSync(password, passwordHash)
-    return { user: success ? user : undefined, success }
+    const isKnown = success && await isKnownLogin(tx, userId, { loginIp, cookies })
+    await loginAttempt(tx, userId, success, { loginIp, cookies })
+    return { user: success ? user : undefined, success, isKnown }
   }
   return { success: false }
 }
 
-export async function loginAttempt (tx, userId, success, loginIp) {
+export async function loginAttempt (tx, userId, success, { loginIp, cookies } = {}) {
   const loginAt = tx.fn.now()
   return tx
     .insert({ userId, success, loginIp, loginAt })
@@ -108,7 +119,7 @@ export async function getPasswordResetRequests (tx, { since = 0, limit = 20, off
     .offset(offset)
 }
 
-export async function resetPassword (tx, requestCode, newPassword, { clientIp } = {}) {
+export async function resetPassword (tx, requestCode, newPassword, { clientIp, cookies } = {}) {
   const now = tx.fn.now()
   const requested = await tx
     .select()

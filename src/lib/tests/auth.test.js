@@ -2,7 +2,7 @@ import { UnitTestDb } from './db'
 import { createLogin, verifyLogin, loginAttempt, getLastLoginAttempts, requestPasswordReset, getPasswordResetRequests, resetPassword } from '../auth'
 import { createUser, getUserByName, listUsers } from '../users'
 
-describe('Aunt Tests', () => {
+describe('Auth Tests', () => {
   const db = new UnitTestDb()
   let knex = null
 
@@ -37,10 +37,17 @@ describe('Aunt Tests', () => {
     expect(user).toBeFalsy()
     done()
   })
+  it('verifyLogin isKnown', async (done) => {
+    const { isKnown: isKnownFirst } = await verifyLogin(knex, 'testAuth', 'password', { loginIp: '127.0.1.0' })
+    expect(isKnownFirst).toBe(false)
+    const { isKnown } = await verifyLogin(knex, 'testAuth', 'password', { loginIp: '127.0.1.0' })
+    expect(isKnown).toBe(true)
+    done()
+  })
   it('loginAttempt succeeds', async (done) => {
     const { userId } = await getUserByName(knex, { userName: 'testAuth' })
-    await loginAttempt(knex, userId, true, '127.0.0.1')
-    await loginAttempt(knex, userId, false, '127.0.0.2')
+    await loginAttempt(knex, userId, true, { loginIp: '127.0.0.1' })
+    await loginAttempt(knex, userId, false, { loginIp: '127.0.0.2' })
     done()
   })
   it('getLoginAttempts succeeds', async (done) => {
