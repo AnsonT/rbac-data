@@ -8,13 +8,24 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:11-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: starter_dev
+        ports:
+        - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: npm install
-      - run: npm run test -- --coverage --watchAll=false
+      - run: yarn install
+      - run: yarn run test -- --coverage --watchAll=false --runInBand
         
       - name: Setup GIT
         run: |
@@ -28,17 +39,17 @@ jobs:
       - name: Bump version
         run: |
           git reset --hard
-          npm version patch
-          npm run build
+          yarn version patch
+          yarn build
           git add . || true
           git commit -m "Build update" || true
           git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY"
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           
-      - name: npm publish
+      - name: yarn publish
         run: |
-          npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
-          npm run trypublish
+          yarn config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+          yarn run trypublish
         env:
             NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
