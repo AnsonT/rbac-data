@@ -1,6 +1,6 @@
 /*!
  * 
- *   @ansont/rbac-data v0.1.1-alpha.0
+ *   @ansont/rbac-data v0.1.2-alpha.0
  *   https://github.com/ansont/rbac-data
  * 
  *   Copyright (c) Anson Tsao (https://github.com/ansont)
