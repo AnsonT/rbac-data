@@ -108,6 +108,8 @@ export async function listUserPermissions (tx, userId) {
     .from('permissions as p')
     .join('rolesPermissions as rp', 'rp.permissionId', 'p.permissionId')
     .join('roles as r', 'r.roleId', 'rp.roleId')
+    .join('usersRoles as ur', 'ur.roleId', 'r.roleId')
+    .where('ur.userId', '=', userId)
 
   const allow = _.map(_.filter(permissions, { denied: false }), p => p.permission)
   const deny = _.map(_.filter(permissions, { denied: true }), p => p.permission)

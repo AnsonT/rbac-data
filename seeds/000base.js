@@ -1,4 +1,4 @@
-const { ROOT_TENANT, GLOBAL_TENANT, SUPERUSER_ROLE } = require('../src/lib/constants')
+const { ROOT_TENANT, GLOBAL_TENANT, SUPERUSER_ROLE, ADMIN_ROLE, USER_ROLE } = require('../src/lib/constants')
 
 exports.seed = async (knex) => {
   await knex('tenants').del()
@@ -29,6 +29,20 @@ exports.seed = async (knex) => {
         roleName: 'superuser',
         tenantId: ROOT_TENANT,
         description: 'root superuser',
+        canBeDeleted: false
+      },
+      {
+        roleId: ADMIN_ROLE,
+        roleName: 'admin',
+        tenantId: ROOT_TENANT,
+        description: 'admin user',
+        canBeDeleted: false
+      },
+      {
+        roleId: USER_ROLE,
+        roleName: 'user',
+        tenantId: ROOT_TENANT,
+        description: 'user',
         canBeDeleted: false
       }
     ])
