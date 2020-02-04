@@ -88,6 +88,7 @@ export async function requestPasswordReset (tx, { tenantId = ROOT_TENANT, userNa
   if (!users.length) {
     return { success: false, error: 'user not found' }
   }
+  const requests = []
   for (const user of users) {
     const requestId = uuid()
     const requestCode = short().fromUUID(requestId)
@@ -105,8 +106,9 @@ export async function requestPasswordReset (tx, { tenantId = ROOT_TENANT, userNa
     await tx
       .insert({ requestId, userId, requestCode, requestAt, expireAt, requestIp })
       .into('passwordResetRequests')
+    requests.push({ userId, userName, email, requestCode })
   }
-  return { success: true }
+  return { success: true, requests }
 }
 
 export async function getPasswordResetRequests (tx, { since = 0, limit = 20, offset = 0 } = {}) {
