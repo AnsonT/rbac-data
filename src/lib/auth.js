@@ -106,7 +106,7 @@ export async function requestPasswordReset (tx, { tenantId = ROOT_TENANT, userNa
     await tx
       .insert({ requestId, userId, requestCode, requestAt, expireAt, requestIp })
       .into('passwordResetRequests')
-    requests.push({ userId, userName, email, requestCode })
+    requests.push({ userId, userName, email: user.email, requestCode })
   }
   return { success: true, requests }
 }
