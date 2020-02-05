@@ -1,4 +1,3 @@
-import { schemaSync } from '../index'
 describe('Migration Tests', () => {
   it('Migration succeeds', async (done) => {
     const dbName = `${new Date().toISOString()}unittest_${name}`
@@ -21,8 +20,7 @@ describe('Migration Tests', () => {
     await dbManager.createDb()
     await dbManager.close()
     await dbManager.closeKnex()
-    const knex = require('knex')(dbConfig.knex)
-    await schemaSync(knex)
+    // const knex = require('knex')(dbConfig.knex)
     done()
   })
 })
