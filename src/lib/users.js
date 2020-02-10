@@ -61,10 +61,10 @@ export async function createUser (tx, { tenantId = ROOT_TENANT, userName, email,
 export async function listUsers (tx, { tenantId = ROOT_TENANT, offset = 0, limit = 20 }) {
   const query = tx('users').where({ tenantId })
   const users = await query.clone().offset(offset).limit(limit)
-  const total = await query.clone().count()
+  const { count } = await query.clone().count().first()
 
   return {
-    total,
+    total: parseInt(count),
     offset,
     limit,
     users

@@ -32,6 +32,7 @@ describe('Users Tests', () => {
     const limit = 3
     while (true) {
       const ret = await listUsers(knex, { offset, limit })
+      console.log(ret)
       expect(ret.total).toMatchSnapshot()
       expect(ret.offset).toMatchSnapshot()
       expect(ret.limit).toMatchSnapshot()
