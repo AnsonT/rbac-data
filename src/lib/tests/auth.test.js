@@ -71,7 +71,7 @@ describe('Auth Tests', () => {
   })
 
   it('getPasswordResetRequests journal succeeds', async (done) => {
-    const users = await listUsers(knex, { limit: 10 })
+    const { users } = await listUsers(knex, { limit: 10 })
     for (let i = 0; i < users.length; i++) {
       const { success } = await requestPasswordReset(knex, { userName: users[i].userName })
       expect(success).toBe(true)
