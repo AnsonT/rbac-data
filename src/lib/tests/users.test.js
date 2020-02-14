@@ -31,7 +31,13 @@ describe('Users Tests', () => {
     let offset = 0
     const limit = 3
     while (true) {
-      const users = omitTimestamps(await listUsers(knex, { offset, limit }))
+      const ret = await listUsers(knex, { offset, limit })
+      console.log(ret)
+      expect(ret.total).toMatchSnapshot()
+      expect(ret.offset).toMatchSnapshot()
+      expect(ret.limit).toMatchSnapshot()
+
+      const users = omitTimestamps(ret.users)
       expect(users).toMatchSnapshot()
       offset += limit
       if (users.length < limit) {

@@ -59,12 +59,23 @@ export async function createUser (tx, { tenantId = ROOT_TENANT, userName, email,
  * @param {number} where.limit - limit # items returned
  */
 export async function listUsers (tx, { tenantId = ROOT_TENANT, offset = 0, limit = 20 }) {
-  return tx
-    .select()
-    .from('users')
-    .where({ tenantId })
-    .offset(offset)
-    .limit(limit)
+  const query = tx('users').where({ tenantId })
+  const users = await query.clone().offset(offset).limit(limit)
+  const { count } = await query.clone().count().first()
+
+  return {
+    total: parseInt(count),
+    offset,
+    limit,
+    users
+  }
+
+  // return tx
+  //   .select()
+  //   .from('users')
+  //   .where({ tenantId })
+  //   .offset(offset)
+  //   .limit(limit)
 }
 
 /**
