@@ -1,6 +1,9 @@
 import _ from 'lodash'
 import { UnitTestDb } from './db'
-import { createRole, getRoleById, getRoleByName, listRoles, removeRole, updateRole, assignUserRoleById, listUserRoles, grantRolePermissionById, denyRolePermissionById, setUserRolesByName, assignUserRoleByName } from '../roles'
+import {
+  createRole, getRoleById, getRoleByName, listRoles, removeRole, updateRole, assignUserRoleById,
+  listUserRoles, grantRolePermissionById, denyRolePermissionById, setUserRolesByName, setUserRolesById
+} from '../roles'
 import { SUPERUSER_ROLE, ROOT_TENANT } from '../constants'
 import uuid from 'uuid/v4'
 import { createUser, getUserByName } from '../users'
@@ -170,6 +173,15 @@ describe('Roles Tests', () => {
     await setUserRolesByName(knex, { userName: user2.userName, roleNames: [role1.roleName] })
     const roles2 = await listUserRoles(knex, userId)
     expect(roles2.length).toBe(1)
+    done()
+  })
+  it('setUserRolesByIds succeeds', async (done) => {
+    const { userId } = await getUserByName(knex, { userName: user2.userName })
+    const { roleId: role1Id } = await getRoleByName(knex, { roleName: role1.roleName })
+    const { roleId: role2Id } = await getRoleByName(knex, { roleName: role2.roleName })
+    await setUserRolesById(knex, userId, [role1Id, role2Id])
+    const roles2 = await listUserRoles(knex, userId)
+    expect(roles2.length).toBe(2)
     done()
   })
 })

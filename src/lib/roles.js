@@ -138,13 +138,30 @@ export async function listUserRoles (tx, userId) {
 }
 
 export async function setUserRolesByName (tx, { tenantId = ROOT_TENANT, userName, roleNames }) {
-  const { userId } = await getUserByName(tx, { tenantId, userName })
+  const { userId } = await getUserByName(tx, { tenantId, userName }) || {}
+  if (!userId) {
+    throw new InvalidParameterError({ message: `Invalid userName: "${userName}"` })
+  }
   await tx
     .from('usersRoles')
     .del()
     .where({ userId })
   for (const roleName of roleNames) {
-    const { roleId } = await getRoleByName(tx, { tenantId, roleName })
+    const { roleId } = await getRoleByName(tx, { tenantId, roleName }) || {}
+    if (!roleId) {
+      throw new InvalidParameterError({ message: `Invalid roleName: "${roleName}"` })
+    }
+    await assignUserRoleById(tx, { userId, roleId })
+  }
+  return true
+}
+
+export async function setUserRolesById (tx, userId, roleIds) {
+  await tx
+    .from('usersRoles')
+    .del()
+    .where({ userId })
+  for (const roleId of roleIds) {
     await assignUserRoleById(tx, { userId, roleId })
   }
   return true
