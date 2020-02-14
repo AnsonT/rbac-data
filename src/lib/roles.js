@@ -138,6 +138,9 @@ export async function listUserRoles (tx, userId) {
 }
 
 export async function setUserRolesByName (tx, { tenantId = ROOT_TENANT, userName, roleNames }) {
+  if (!userName) {
+    throw new InvalidParameterError({ message: 'userName is required' })
+  }
   const { userId } = await getUserByName(tx, { tenantId, userName }) || {}
   if (!userId) {
     throw new InvalidParameterError({ message: `Invalid userName: "${userName}"` })
