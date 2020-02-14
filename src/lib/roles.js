@@ -136,3 +136,16 @@ export async function listUserRoles (tx, userId) {
     .where({ userId })
   return roles
 }
+
+export async function setUserRolesByName (tx, { tenantId = ROOT_TENANT, userName, roleNames }) {
+  const { userId } = await getUserByName(tx, { tenantId, userName })
+  await tx
+    .from('usersRoles')
+    .del()
+    .where({ userId })
+  for (const roleName of roleNames) {
+    const { roleId } = await getRoleByName(tx, { tenantId, roleName })
+    await assignUserRoleById(tx, { userId, roleId })
+  }
+  return true
+}
