@@ -153,3 +153,22 @@ export async function checkUserPermissionsByName (tx, requiredPermissions, { ten
   const { grants } = await listUserPermissions(tx, userId)
   return checkPermissions(requiredPermissions, grants)
 }
+
+export async function listRolePermissionsByName (tx, { tenantId = ROOT_TENANT, roleName }) {
+  return tx
+    .select()
+    .from('permissions as p')
+    .join('rolesPermissions as rp', 'rp.permissionId', 'p.permissionId')
+    .join('roles as r', 'r.roleId', 'rp.roleId')
+    .where('r.roleName', '=', roleName)
+    .where('r.tenantId', '=', tenantId)
+}
+
+export async function listRolePermissionsById (tx, roleId) {
+  return tx
+    .select()
+    .from('permissions as p')
+    .join('rolesPermissions as rp', 'rp.permissionId', 'p.permissionId')
+    .join('roles as r', 'r.roleId', 'rp.roleId')
+    .where('r.roleId', '=', roleId)
+}

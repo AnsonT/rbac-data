@@ -7,7 +7,7 @@ import {
 import { SUPERUSER_ROLE, ROOT_TENANT } from '../constants'
 import uuid from 'uuid/v4'
 import { createUser, getUserByName } from '../users'
-import { createPermission, listUserPermissions, checkUserPermissionsByName } from '../permissions'
+import { createPermission, listUserPermissions, checkUserPermissionsByName, listRolePermissionsById, listRolePermissionsByName } from '../permissions'
 
 const user1 = {
   userName: 'User1',
@@ -141,6 +141,17 @@ describe('Roles Tests', () => {
     await grantRolePermissionById(knex, roleId, permission1Id)
     await grantRolePermissionById(knex, roleId, permission2Id)
     await denyRolePermissionById(knex, roleId, permission3Id)
+    done()
+  })
+  it('listRolePermisisonsById succeed', async (done) => {
+    const { roleId } = await getRoleByName(knex, { roleName: role1.roleName })
+    const permissions = await listRolePermissionsById(knex, roleId)
+    expect(permissions.length).toBe(3)
+    done()
+  })
+  it('listRolePermisisonsByName succeed', async (done) => {
+    const permissions = await listRolePermissionsByName(knex, { roleName: role1.roleName })
+    expect(permissions.length).toBe(3)
     done()
   })
   it('listUserPermissions succeeds', async (done) => {
