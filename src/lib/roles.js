@@ -1,5 +1,6 @@
 import { ROOT_TENANT, GLOBAL_TENANT } from './constants'
 import uuid from 'uuid/v4'
+import 'lodash'
 import _ from 'lodash-uuid'
 import { InvalidParameterError } from './errors'
 import { getUserById, getUserByName } from './users'
@@ -168,4 +169,22 @@ export async function setUserRolesById (tx, userId, roleIds) {
     await assignUserRoleById(tx, { userId, roleId })
   }
   return true
+}
+
+export async function setRolePermissionsByIds (tx, roleId, permissions) {
+  await tx
+    .from('rolesPermissions')
+    .del()
+    .where({ roleId })
+  console.log({ permissions })
+  for (const permission of permissions) {
+    console.log({ permission })
+    if (_.isString(permission)) {
+      await grantRolePermissionById(tx, roleId, permission)
+    } else if (permission.denied) {
+      await denyRolePermissionById(tx, roleId, permission.permissionId)
+    } else {
+      await grantRolePermissionById(tx, roleId, permission.permissionId)
+    }
+  }
 }

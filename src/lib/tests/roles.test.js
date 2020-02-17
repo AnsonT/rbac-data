@@ -2,12 +2,13 @@ import _ from 'lodash'
 import { UnitTestDb } from './db'
 import {
   createRole, getRoleById, getRoleByName, listRoles, removeRole, updateRole, assignUserRoleById,
-  listUserRoles, grantRolePermissionById, denyRolePermissionById, setUserRolesByName, setUserRolesById
+  listUserRoles, grantRolePermissionById, denyRolePermissionById, setUserRolesByName, setUserRolesById,
+  setRolePermissionsByIds
 } from '../roles'
 import { SUPERUSER_ROLE, ROOT_TENANT } from '../constants'
 import uuid from 'uuid/v4'
 import { createUser, getUserByName } from '../users'
-import { createPermission, listUserPermissions, checkUserPermissionsByName, listRolePermissionsById, listRolePermissionsByName } from '../permissions'
+import { createPermission, listUserPermissions, checkUserPermissionsByName, listRolePermissionsById, listRolePermissionsByName, getPermissionByName } from '../permissions'
 
 const user1 = {
   userName: 'User1',
@@ -34,6 +35,11 @@ const role2 = {
 const role3 = {
   roleName: 'role3',
   description: 'role 3'
+}
+
+const role4 = {
+  roleName: 'role4',
+  description: 'role 4'
 }
 
 const permission1 = {
@@ -193,6 +199,25 @@ describe('Roles Tests', () => {
     await setUserRolesById(knex, userId, [role1Id, role2Id])
     const roles2 = await listUserRoles(knex, userId)
     expect(roles2.length).toBe(2)
+    done()
+  })
+  it('setRolePermissions succeeds', async (done) => {
+    const role = await createRole(knex, role4)
+    const p1 = await getPermissionByName(knex, permission1)
+    const p2 = await getPermissionByName(knex, permission2)
+    const p3 = await getPermissionByName(knex, permission3)
+    await setRolePermissionsByIds(knex, role.roleId, [p1.permissionId, p2.permissionId])
+    let permissions = await listRolePermissionsById(knex, role.roleId)
+    expect(permissions.map(p => p.permission).sort()).toEqual(['perm1', 'perm2'].sort())
+    await setRolePermissionsByIds(knex, role.roleId, [p3.permissionId, p2.permissionId])
+    permissions = await listRolePermissionsById(knex, role.roleId)
+    expect(permissions.map(p => p.permission).sort()).toEqual(['_perm3', 'perm2'].sort())
+    await setRolePermissionsByIds(knex, role.roleId, [
+      { permissionId: p1.permissionId }, { permissionId: p3.permissionId, denied: true }])
+    permissions = await listRolePermissionsById(knex, role.roleId)
+    expect(permissions.map(p => p.permission).sort()).toEqual(['_perm3', 'perm1'].sort())
+    expect(permissions.map(p => p.denied).sort()).toEqual([true, false].sort())
+
     done()
   })
 })
