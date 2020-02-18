@@ -176,9 +176,7 @@ export async function setRolePermissionsByIds (tx, roleId, permissions) {
     .from('rolesPermissions')
     .del()
     .where({ roleId })
-  console.log({ permissions })
   for (const permission of permissions) {
-    console.log({ permission })
     if (_.isString(permission)) {
       await grantRolePermissionById(tx, roleId, permission)
     } else if (permission.denied) {
@@ -187,4 +185,5 @@ export async function setRolePermissionsByIds (tx, roleId, permissions) {
       await grantRolePermissionById(tx, roleId, permission.permissionId)
     }
   }
+  return true
 }

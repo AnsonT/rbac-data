@@ -19,6 +19,9 @@ function validatePermission (permission, global) {
 
 export async function createPermission (tx, { tenantId, permission, description, global }) {
   const permissionId = uuid()
+  if (permission.startsWith('_')) {
+    global = true
+  }
   if (tenantId && global) {
     throw new InvalidParameterError({ message: 'Cannot specify both tenantId and global: true' })
   }
