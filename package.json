@@ -1,6 +1,6 @@
 {
   "name": "@ansont/rbac-data",
-  "version": "0.1.12-alpha.0",
+  "version": "0.1.13-alpha.0",
   "description": "Data library for RBAC",
   "main": "build/index.js",
   "scripts": {
