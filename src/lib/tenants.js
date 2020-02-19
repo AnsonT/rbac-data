@@ -6,7 +6,7 @@ import { InvalidParameterError } from './errors'
  * @param {object} tx - Knex transaction object
  * @param {object} values - vaues of new tenant
  */
-export async function createTenant (tx, { tenantName, domain }) {
+export async function createTenant (tx, { tenantName, domain, createdBy }) {
   const tenantId = uuid()
   tenantName = tenantName.toLowerCase()
   domain = domain.toLowerCase()
@@ -14,7 +14,8 @@ export async function createTenant (tx, { tenantName, domain }) {
     .insert({
       tenantId,
       tenantName,
-      domain
+      domain,
+      createdBy
     })
     .into('tenants')
   if (resp.rowCount === 1) {
@@ -88,12 +89,13 @@ export async function removeTenant (tx, tenantId) {
  * @param {string} userId - id of tenant to update
  * @param {object} values - new values
  */
-export async function updateTenant (tx, tenantId, { tenantName, domain }) {
+export async function updateTenant (tx, tenantId, { tenantName, domain, modifiedBy }) {
   const modifiedAt = tx.fn.now()
   const values = {
     tenantName,
     domain,
-    modifiedAt
+    modifiedAt,
+    modifiedBy
   }
   const count = await tx
     .where({ tenantId })

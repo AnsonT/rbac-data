@@ -10,7 +10,9 @@ exports[`Users Tests listUsers 4`] = `
 Array [
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "hattie_hoeger@yahoo.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "48234870-5389-445f-8b41-c61a52bf27dc",
@@ -18,7 +20,9 @@ Array [
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "brandon_johns@yahoo.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "5374da67-7226-4d3e-8ed9-2ffe6d8b8b0d",
@@ -26,7 +30,9 @@ Array [
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "evan.lang1@gmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "c0a5d0cc-f50b-487a-bbd8-949dfb4d0419",
@@ -45,7 +51,9 @@ exports[`Users Tests listUsers 8`] = `
 Array [
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "pearlie.pollich@gmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "cea83ca7-ea28-4ec5-9bd4-48f2b777a6ec",
@@ -53,7 +61,9 @@ Array [
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "darren_quitzon93@yahoo.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "5b9e7637-aefa-4780-b4f8-82c834666f8c",
@@ -61,7 +71,9 @@ Array [
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "abdiel_feil@gmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "9165d0fa-4b6c-4b35-b065-77305edb7c21",
@@ -80,7 +92,9 @@ exports[`Users Tests listUsers 12`] = `
 Array [
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "fidel.stamm60@gmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "75e7932d-2f50-4631-8a10-7b5a50ccd5bc",
@@ -88,7 +102,9 @@ Array [
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "hermina_dubuque@gmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "c99ee830-d19f-497d-a1ab-968eeaeb40bc",
@@ -96,7 +112,9 @@ Array [
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "alvis.wehner@yahoo.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "4e7f547f-a7f2-4088-ba52-4be69879bd7b",
@@ -115,7 +133,9 @@ exports[`Users Tests listUsers 16`] = `
 Array [
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "miller.prohaska93@gmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "6bb3e443-a60a-494b-8fc2-da89bd6dd9dd",
@@ -123,7 +143,9 @@ Array [
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "alicia7@gmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "a42bbbf9-e1d0-40b0-9bcb-eb0231d2ed66",
@@ -131,7 +153,9 @@ Array [
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "saul.wyman@hotmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "9b4959cd-6b03-4a14-8556-4584b0ea7988",
@@ -150,7 +174,9 @@ exports[`Users Tests listUsers 20`] = `
 Array [
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "delmer_aufderhar@gmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "9bb72ed1-b7ba-4dab-9baa-ca0d3db3ca82",
@@ -158,7 +184,9 @@ Array [
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "judah18@gmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "830806ba-ba34-4c0d-9d58-3bbc7ba6ea8b",
@@ -166,7 +194,9 @@ Array [
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "marcelo18@gmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "88548a60-b10c-4570-ba1b-5de3daf23554",
@@ -185,7 +215,9 @@ exports[`Users Tests listUsers 24`] = `
 Array [
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "kelli.lang@gmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "c66054ad-9a4a-4b36-bc10-4eea57400349",
@@ -193,7 +225,9 @@ Array [
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "alfonso.mertz@gmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "d92b3381-5f80-4034-a239-40829d9cc337",
@@ -201,7 +235,9 @@ Array [
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "leonel.hodkiewicz98@gmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "5b38b8f4-4ea8-46b6-b1a4-8d31e52b86e4",
@@ -220,7 +256,9 @@ exports[`Users Tests listUsers 28`] = `
 Array [
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "derick_waters@hotmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "e08dc8c5-2990-4163-82d4-173458bd53c0",
@@ -228,7 +266,9 @@ Array [
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "email": "thad_reichert25@gmail.com",
+    "modifiedBy": null,
     "needNewPassword": false,
     "tenantId": "00000000-0000-0000-0000-000000000000",
     "userId": "1b6843ae-97ee-469d-aae5-644bd98fb343",

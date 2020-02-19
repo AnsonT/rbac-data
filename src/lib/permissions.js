@@ -17,7 +17,7 @@ function validatePermission (permission, global) {
   return permission
 }
 
-export async function createPermission (tx, { tenantId, permission, description, global }) {
+export async function createPermission (tx, { tenantId, permission, description, global, createdBy }) {
   const permissionId = uuid()
   if (permission.startsWith('_')) {
     global = true
@@ -36,7 +36,8 @@ export async function createPermission (tx, { tenantId, permission, description,
     tenantId,
     permission,
     description,
-    global
+    global,
+    createdBy
   }
   await tx
     .insert(values)
@@ -89,14 +90,15 @@ export async function removePermission (tx, permissionId) {
   return { permissionId, count }
 }
 
-export async function updatePermission (tx, permissionId, { permission, description }) {
+export async function updatePermission (tx, permissionId, { permission, description, modifiedBy }) {
   const { global } = await getPermissionById(tx, permissionId)
   permission = validatePermission(permission, global)
   const modifiedAt = tx.fn.now()
   const values = {
     permission,
     description,
-    modifiedAt
+    modifiedAt,
+    modifiedBy
   }
   const count = await tx
     .where({ permissionId })

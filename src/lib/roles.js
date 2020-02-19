@@ -13,7 +13,7 @@ function validateRoleName (roleName) {
   return roleName
 }
 
-export async function createRole (tx, { tenantId = ROOT_TENANT, roleName, description } = {}) {
+export async function createRole (tx, { tenantId = ROOT_TENANT, roleName, description, createdBy } = {}) {
   const roleId = uuid()
   if (!roleName) {
     throw new InvalidParameterError({ message: 'roleName is required' })
@@ -26,7 +26,8 @@ export async function createRole (tx, { tenantId = ROOT_TENANT, roleName, descri
     roleId,
     tenantId,
     roleName,
-    description
+    description,
+    createdBy
   }
   await tx
     .insert(values)
@@ -71,13 +72,14 @@ export async function removeRole (tx, roleId) {
   return { roleId, count }
 }
 
-export async function updateRole (tx, roleId, { roleName, description }) {
+export async function updateRole (tx, roleId, { roleName, description, modifiedBy }) {
   const modifiedAt = tx.fn.now()
   roleName = validateRoleName(roleName)
   const values = {
     roleName,
     description,
-    modifiedAt
+    modifiedAt,
+    modifiedBy
   }
   const count = await tx
     .where({ roleId })
@@ -86,23 +88,23 @@ export async function updateRole (tx, roleId, { roleName, description }) {
   return { count }
 }
 
-export async function assignUserRoleById (tx, { userId, roleId }) {
+export async function assignUserRoleById (tx, { userId, roleId, createdBy }) {
   const { tenantId: userTenantId } = await getUserById(tx, userId)
   const { tenantId: roleTenantId } = await getRoleById(tx, roleId)
   if (userTenantId !== roleTenantId) {
     throw new InvalidParameterError({ message: 'Role and User from different tenants' })
   }
   await tx
-    .insert({ userId, roleId })
+    .insert({ userId, roleId, createdBy })
     .into('usersRoles')
   return { userId, roleId }
 }
 
-export async function assignUserRoleByName (tx, { tenantId = ROOT_TENANT, userName, roleName } = {}) {
+export async function assignUserRoleByName (tx, { tenantId = ROOT_TENANT, userName, roleName, createdBy } = {}) {
   const { userId } = getUserByName(tx, { tenantId, userName })
   const { roleId } = getRoleByName(tx, { tenantId, roleName })
   await tx
-    .insert({ userId, roleId })
+    .insert({ userId, roleId, createdBy })
     .into('usersRoles')
   return { userId, roleId }
 }
@@ -115,16 +117,16 @@ export async function removeUserRole (tx, userId, roleId) {
   return { userId, roleId, count }
 }
 
-export async function grantRolePermissionById (tx, roleId, permissionId) {
+export async function grantRolePermissionById (tx, roleId, permissionId, { modifiedBy } = {}) {
   await tx
-    .insert({ roleId, permissionId, denied: false })
+    .insert({ roleId, permissionId, denied: false, createdBy: modifiedBy })
     .into('rolesPermissions')
   return { roleId, permissionId }
 }
 
-export async function denyRolePermissionById (tx, roleId, permissionId) {
+export async function denyRolePermissionById (tx, roleId, permissionId, { modifiedBy } = {}) {
   await tx
-    .insert({ roleId, permissionId, denied: true })
+    .insert({ roleId, permissionId, denied: true, createdBy: modifiedBy })
     .into('rolesPermissions')
   return { roleId, permissionId }
 }
@@ -138,7 +140,7 @@ export async function listUserRoles (tx, userId) {
   return roles
 }
 
-export async function setUserRolesByName (tx, { tenantId = ROOT_TENANT, userName, roleNames }) {
+export async function setUserRolesByName (tx, { tenantId = ROOT_TENANT, userName, roleNames, modifiedBy }) {
   if (!userName) {
     throw new InvalidParameterError({ message: 'userName is required' })
   }
@@ -155,34 +157,34 @@ export async function setUserRolesByName (tx, { tenantId = ROOT_TENANT, userName
     if (!roleId) {
       throw new InvalidParameterError({ message: `Invalid roleName: "${roleName}"` })
     }
-    await assignUserRoleById(tx, { userId, roleId })
+    await assignUserRoleById(tx, { userId, roleId, createdBy: modifiedBy })
   }
   return true
 }
 
-export async function setUserRolesById (tx, userId, roleIds) {
+export async function setUserRolesById (tx, userId, roleIds, { modifiedBy } = {}) {
   await tx
     .from('usersRoles')
     .del()
     .where({ userId })
   for (const roleId of roleIds) {
-    await assignUserRoleById(tx, { userId, roleId })
+    await assignUserRoleById(tx, { userId, roleId, createdBy: modifiedBy })
   }
   return true
 }
 
-export async function setRolePermissionsByIds (tx, roleId, permissions) {
+export async function setRolePermissionsByIds (tx, roleId, permissions, { modifiedBy } = {}) {
   await tx
     .from('rolesPermissions')
     .del()
     .where({ roleId })
   for (const permission of permissions) {
     if (_.isString(permission)) {
-      await grantRolePermissionById(tx, roleId, permission)
+      await grantRolePermissionById(tx, roleId, permission, { modifiedBy })
     } else if (permission.denied) {
-      await denyRolePermissionById(tx, roleId, permission.permissionId)
+      await denyRolePermissionById(tx, roleId, permission.permissionId, { modifiedBy })
     } else {
-      await grantRolePermissionById(tx, roleId, permission.permissionId)
+      await grantRolePermissionById(tx, roleId, permission.permissionId, { modifiedBy })
     }
   }
   return true

@@ -4,15 +4,19 @@ exports[`Permissions Tests listPermissions succeeds 1`] = `
 Array [
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "description": "root permission 1",
     "global": false,
+    "modifiedBy": null,
     "permission": "perm1",
     "tenantId": "00000000-0000-0000-0000-000000000000",
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "description": "global permission 2",
     "global": true,
+    "modifiedBy": null,
     "permission": "_perm2",
     "tenantId": "ffffffff-ffff-ffff-ffff-ffffffffffff",
   },
@@ -23,15 +27,19 @@ exports[`Permissions Tests listPermissions succeeds 2`] = `
 Array [
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "description": "acme permission 1",
     "global": false,
+    "modifiedBy": null,
     "permission": "perm1",
     "tenantId": "19443f78-47f2-4ed7-89eb-5707105ee51e",
   },
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "description": "global permission 2",
     "global": true,
+    "modifiedBy": null,
     "permission": "_perm2",
     "tenantId": "ffffffff-ffff-ffff-ffff-ffffffffffff",
   },
@@ -42,8 +50,10 @@ exports[`Permissions Tests listPermissions succeeds 3`] = `
 Array [
   Object {
     "canBeDeleted": true,
+    "createdBy": null,
     "description": "global permission 2",
     "global": true,
+    "modifiedBy": null,
     "permission": "_perm2",
     "tenantId": "ffffffff-ffff-ffff-ffff-ffffffffffff",
   },

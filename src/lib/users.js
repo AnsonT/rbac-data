@@ -31,7 +31,7 @@ function validateEmail (email) {
  * @param {object} values - values of new user
  * @param {string} values.tenantId - tenant id
  */
-export async function createUser (tx, { tenantId = ROOT_TENANT, userName, email, emailVerifiedAt, needNewPassword } = {}) {
+export async function createUser (tx, { tenantId = ROOT_TENANT, userName, email, emailVerifiedAt, needNewPassword, createdBy } = {}) {
   userName = validateUserName(userName)
   email = validateEmail(email)
   const userId = uuid()
@@ -42,7 +42,8 @@ export async function createUser (tx, { tenantId = ROOT_TENANT, userName, email,
       userName,
       email,
       emailVerifiedAt,
-      needNewPassword
+      needNewPassword,
+      createdBy
     })
     .into('users')
   if (resp.rowCount === 1) {
@@ -128,14 +129,15 @@ export async function removeUser (tx, userId) {
  * @param {string} userId - id of user to update
  * @param {object} values - new values
  */
-export async function updateUser (tx, userId, { userName, email, emailVerifiedAt, needNewPassword }) {
+export async function updateUser (tx, userId, { userName, email, emailVerifiedAt, needNewPassword, modifiedBy }) {
   const modifiedAt = tx.fn.now()
   const values = {
     userName: validateUserName(userName),
     email: validateEmail(email),
     emailVerifiedAt,
     needNewPassword,
-    modifiedAt
+    modifiedAt,
+    modifiedBy
   }
   const count = await tx
     .where({ userId })
