@@ -15,5 +15,5 @@
 ```
 npm install @ansont/rbac-data
 or
-yarn add @anosnt/rbac-data
+yarn add @ansont/rbac-data
 ```
